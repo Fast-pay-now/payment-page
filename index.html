@@ -2,24 +2,29 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment Request</title>
+    <title>Quick Pay</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; background: #f4f4f4; }
-        .card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: inline-block; width: 90%; max-width: 350px; }
+        body { font-family: sans-serif; text-align: center; padding: 20px; background: #f9f9f9; }
+        .card { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); display: inline-block; width: 90%; max-width: 350px; }
         .amount { font-size: 35px; color: #27ae60; font-weight: bold; margin: 15px 0; }
-        .name { font-size: 20px; color: #333; margin-bottom: 5px; }
-        .vpa { color: #7f8c8d; font-size: 14px; }
+        .copy-btn { background: #f0f0f0; border: 1px dashed #bbb; padding: 10px; border-radius: 10px; cursor: pointer; color: #555; font-size: 14px; margin-top: 10px; }
+        .copy-btn:active { background: #e0e0e0; }
     </style>
 </head>
 <body>
+
     <div class="card">
-        <div class="name">Paying to: <br><strong id="cusName">Customer</strong></div>
+        <p>Paying to: <strong id="cusName">Customer</strong></p>
         <div class="amount">₹<span id="cusAmnt">0</span></div>
-        <div class="vpa">UPI ID: <span id="cusVpa">not set</span></div>
+        
+        <div class="copy-btn" onclick="copyUPI()">
+            UPI ID: <span id="cusVpa">not set</span> <br>
+            <small>(Tap to copy UPI ID)</small>
+        </div>
+        <p id="msg" style="color: blue; font-size: 12px; margin-top: 5px;"></p>
     </div>
 
     <script>
-        // URL থেকে ডাটা রিসিভ করার কোড
         const params = new URLSearchParams(window.location.search);
         const n = params.get('nameInput');
         const a = params.get('amntInput');
@@ -28,7 +33,19 @@
         if(n) document.getElementById('cusName').innerText = decodeURIComponent(n);
         if(a) document.getElementById('cusAmnt').innerText = a;
         if(v) document.getElementById('cusVpa').innerText = v;
+
+        // UPI কপি করার ফাংশন
+        function copyUPI() {
+            const upiId = document.getElementById('cusVpa').innerText;
+            if(upiId !== "not set") {
+                navigator.clipboard.writeText(upiId);
+                document.getElementById('msg').innerText = "UPI ID Copied!";
+                setTimeout(() => { document.getElementById('msg').innerText = ""; }, 2000);
+            }
+        }
     </script>
+
 </body>
 </html>
+
 
