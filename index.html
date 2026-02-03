@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Payment Page</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    .row {
+      margin-bottom: 15px;
+    }
+    input {
+      padding: 8px;
+      width: 220px;
+    }
+    button {
+      padding: 8px 12px;
+      margin-left: 8px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Payment Details</h2>
+
+<div class="row">
+  <label>Name</label><br>
+  <input type="text" id="name" value="Muntasir">
+  <button onclick="copyText('name')">Copy</button>
+</div>
+
+<div class="row">
+  <label>Amount</label><br>
+  <input type="text" id="amount" value="500">
+  <button onclick="copyText('amount')">Copy</button>
+</div>
+
+<div class="row">
+  <label>UPI ID</label><br>
+  <input type="text" id="upi" value="example@upi">
+  <button onclick="copyText('upi')">Copy</button>
+</div>
+
+<script>
+  function copyText(id) {
+    const value = document.getElementById(id).value;
+    navigator.clipboard.writeText(value).then(() => {
+      alert("Copied: " + value);
+    });
+  }
+</script>
+
+</body>
+</html>
