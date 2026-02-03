@@ -7,32 +7,34 @@
     <style>
         body { font-family: sans-serif; background-color: #f4f7f6; margin: 0; padding: 15px; display: flex; justify-content: center; }
         .container { background: white; width: 100%; max-width: 400px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); overflow: hidden; }
-        .header { background: #3b82f6; color: white; padding: 15px; text-align: center; font-weight: bold; font-size: 18px; }
-        .timer-section { background: #f0f7ff; padding: 10px; text-align: center; font-size: 14px; border-bottom: 1px solid #ddd; }
-        .timer { color: #ef4444; font-weight: bold; font-size: 18px; }
+        .header { background: #1e88e5; color: white; padding: 15px; text-align: center; font-weight: bold; font-size: 18px; }
+        .timer-section { background: #f0f7ff; padding: 10px; text-align: center; font-size: 16px; border-bottom: 1px solid #ddd; }
+        .timer { color: #d32f2f; font-weight: bold; }
         .details-box { padding: 20px; border-bottom: 1px solid #eee; }
-        .row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         .label { color: #666; font-size: 14px; }
         .value { font-weight: bold; font-size: 16px; color: #333; }
-        .copy-btn { background: #3b82f6; color: white; border: none; padding: 6px 15px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; }
-        .apps-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px; }
-        .app-btn { border: 1px solid #e5e7eb; border-radius: 12px; padding: 15px; text-align: center; background: #fff; }
-        .app-btn img { height: 30px; display: block; margin: 0 auto 8px; }
-        .utr-section { padding: 20px; background: #fffbeb; border-top: 1px solid #fef3c7; }
-        .utr-input { width: 100%; box-sizing: border-box; padding: 12px; border: 1px solid #d1d5db; border-radius: 8px; margin: 10px 0; font-size: 16px; }
-        .submit-btn { width: 100%; background: #22c55e; color: white; border: none; padding: 14px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; }
+        .copy-btn { background: white; color: #1e88e5; border: 1px solid #1e88e5; padding: 6px 15px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; }
+        .apps-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 15px; }
+        .app-btn { border: 1px solid #e0e0e0; border-radius: 8px; padding: 10px; text-align: center; background: #fff; }
+        .app-btn img { height: 25px; display: block; margin: 0 auto 5px; }
+        .utr-section { padding: 20px; }
+        .utr-input { width: 100%; box-sizing: border-box; padding: 12px; border: 1px solid #ddd; border-radius: 8px; margin: 10px 0; font-size: 16px; background: #f9f9f9; }
+        .submit-btn { width: 100%; background: #2196f3; color: white; border: none; padding: 14px; border-radius: 25px; font-size: 16px; font-weight: bold; cursor: pointer; }
+        .notice { padding: 15px; color: #d32f2f; font-size: 13px; line-height: 1.5; }
+        .notice b { color: #000; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="header">Payment Gateway</div>
+    <div class="header">Payment</div>
     <div class="timer-section">Order will be closed in: <span id="timer" class="timer">10:00</span></div>
 
     <div class="details-box">
         <div class="row">
             <span class="label">Amount</span>
-            <span class="value">₹<span id="display-amount">0</span></span>
+            <span class="value">₹ <span id="display-amount">0</span></span>
             <button class="copy-btn" onclick="copyText('display-amount')">COPY</button>
         </div>
         <div class="row">
@@ -40,25 +42,31 @@
             <span class="value" id="display-vpa">notset@upi</span>
             <button class="copy-btn" onclick="copyText('display-vpa')">COPY</button>
         </div>
-        <div class="row" style="margin-top: 5px; border-top: 1px dashed #ddd; padding-top: 10px;">
+        <div class="row">
             <span class="label">Name</span>
-            <span class="value" id="display-name" style="color: #3b82f6;">Customer Name</span>
+            <span class="value" id="display-name" style="color: #1e88e5;">Customer Name</span>
         </div>
     </div>
 
-    <div style="text-align: center; color: #3b82f6; font-size: 13px; margin-top: 15px; font-weight: 500;">How to transfer money?</div>
+    <div style="text-align: center; color: #1e88e5; font-size: 14px; margin-top: 15px;">ⓘ How to transfer money?</div>
 
     <div class="apps-grid">
-        <div class="app-btn"><img src="https://upload.wikimedia.org/wikipedia/commons/7/71/PhonePe_Logo.svg" alt="PhonePe">PhonePe</div>
-        <div class="app-btn"><img src="https://static.vecteezy.com/system/resources/previews/021/671/919/non_2x/paytm-logo-paytm-icon-transparent-free-png.png" alt="Paytm">Paytm</div>
-        <div class="app-btn"><img src="https://upload.wikimedia.org/wikipedia/commons/f/f2/Google_Pay_Logo.svg" alt="GPay">GPay</div>
-        <div class="app-btn"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/BHIM_Logo.png" alt="BHIM">BHIM</div>
+        <div class="app-btn"><img src="https://upload.wikimedia.org/wikipedia/commons/7/71/PhonePe_Logo.svg">PhonePe</div>
+        <div class="app-btn"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a2/Logonet_Paytm.png">Paytm</div>
+        <div class="app-btn"><img src="https://upload.wikimedia.org/wikipedia/commons/f/f2/Google_Pay_Logo.svg">GPay</div>
+        <div class="app-btn"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/BHIM_Logo.png">BHIM</div>
     </div>
 
     <div class="utr-section">
-        <div style="color: #3b82f6; font-size: 14px; font-weight: 500;">↓ Fill the UTR numbers after you done payment</div>
+        <div style="color: #1e88e5; font-size: 13px;">↓ Fill the UTR numbers after you done payment</div>
         <input type="text" class="utr-input" id="utr" placeholder="Input UTR number">
         <button class="submit-btn" onclick="submitUTR()">Submit UTR</button>
+    </div>
+
+    <div class="notice">
+        <b>Notice:</b><br>
+        1. One UPI can only transfer money <b>once</b>.<br>
+        2. Don't change the <b>payment amount</b>. Otherwise, the order cannot be closed.
     </div>
 </div>
 
@@ -66,8 +74,6 @@
     const urlParams = new URLSearchParams(window.location.search);
     document.getElementById('display-amount').innerText = urlParams.get('amntInput') || '0';
     document.getElementById('display-vpa').innerText = urlParams.get('vpaInput') || 'notset@upi';
-    
-    // URL থেকে নাম নিয়ে এখানে বসাবে
     const name = urlParams.get('nameInput');
     document.getElementById('display-name').innerText = name ? decodeURIComponent(name) : 'Not Provided';
 
@@ -76,7 +82,7 @@
     setInterval(() => {
         let mins = Math.floor(time / 60);
         let secs = time % 60;
-        timerEl.innerHTML = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        timerEl.innerHTML = `${mins} : ${secs < 10 ? '0' : ''}${secs}`;
         if(time > 0) time--;
     }, 1000);
 
@@ -98,5 +104,6 @@
 
 </body>
 </html>
+
 
 
