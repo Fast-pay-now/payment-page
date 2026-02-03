@@ -6,7 +6,7 @@
     <title>Payment Gateway</title>
     <style>
         body { font-family: sans-serif; background-color: #f4f7f6; margin: 0; padding: 15px; display: flex; justify-content: center; }
-        .container { background: white; width: 100%; max-width: 400px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); overflow: hidden; }
+        .container { background: white; width: 100%; max-width: 400px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); overflow: hidden; position: relative; min-height: 500px; }
         .header { background: #1e88e5; color: white; padding: 15px; text-align: center; font-weight: bold; font-size: 18px; }
         .timer-section { background: #f0f7ff; padding: 10px; text-align: center; font-size: 16px; border-bottom: 1px solid #ddd; }
         .timer { color: #d32f2f; font-weight: bold; }
@@ -22,51 +22,66 @@
         .utr-input { width: 100%; box-sizing: border-box; padding: 12px; border: 1px solid #ddd; border-radius: 8px; margin: 10px 0; font-size: 16px; background: #f9f9f9; }
         .submit-btn { width: 100%; background: #2196f3; color: white; border: none; padding: 14px; border-radius: 25px; font-size: 16px; font-weight: bold; cursor: pointer; }
         .notice { padding: 15px; color: #d32f2f; font-size: 13px; line-height: 1.5; }
-        .notice b { color: #000; }
+        
+        /* Success Screen CSS */
+        #success-screen { display: none; text-align: center; padding: 40px 20px; }
+        .success-icon { font-size: 80px; color: #2ecc71; margin-bottom: 20px; }
+        .success-title { font-size: 24px; color: #2c3e50; font-weight: bold; margin-bottom: 10px; }
+        .success-msg { color: #7f8c8d; font-size: 16px; line-height: 1.4; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="header">Payment</div>
-    <div class="timer-section">Order will be closed in: <span id="timer" class="timer">10:00</span></div>
+<div class="container" id="main-container">
+    <div id="payment-page">
+        <div class="header">Payment</div>
+        <div class="timer-section">Order will be closed in: <span id="timer" class="timer">10:00</span></div>
 
-    <div class="details-box">
-        <div class="row">
-            <span class="label">Amount</span>
-            <span class="value">₹ <span id="display-amount">0</span></span>
-            <button class="copy-btn" onclick="copyText('display-amount')">COPY</button>
+        <div class="details-box">
+            <div class="row">
+                <span class="label">Amount</span>
+                <span class="value">₹ <span id="display-amount">0</span></span>
+                <button class="copy-btn" onclick="copyText('display-amount')">COPY</button>
+            </div>
+            <div class="row">
+                <span class="label">VPA/UPI ID</span>
+                <span class="value" id="display-vpa">notset@upi</span>
+                <button class="copy-btn" onclick="copyText('display-vpa')">COPY</button>
+            </div>
+            <div class="row">
+                <span class="label">Name</span>
+                <span class="value" id="display-name" style="color: #1e88e5;">Customer Name</span>
+            </div>
         </div>
-        <div class="row">
-            <span class="label">VPA/UPI ID</span>
-            <span class="value" id="display-vpa">notset@upi</span>
-            <button class="copy-btn" onclick="copyText('display-vpa')">COPY</button>
+
+        <div class="apps-grid">
+            <div class="app-btn"><img src="https://upload.wikimedia.org/wikipedia/commons/7/71/PhonePe_Logo.svg">PhonePe</div>
+            <div class="app-btn"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a2/Logonet_Paytm.png">Paytm</div>
+            <div class="app-btn"><img src="https://upload.wikimedia.org/wikipedia/commons/f/f2/Google_Pay_Logo.svg">GPay</div>
+            <div class="app-btn"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/BHIM_Logo.png">BHIM</div>
         </div>
-        <div class="row">
-            <span class="label">Name</span>
-            <span class="value" id="display-name" style="color: #1e88e5;">Customer Name</span>
+
+        <div class="utr-section">
+            <input type="text" class="utr-input" id="utr" placeholder="Input 12-digit UTR number">
+            <button class="submit-btn" onclick="submitUTR()">Submit UTR</button>
+        </div>
+
+        <div class="notice">
+            <b>Notice:</b><br>
+            1. One UPI can only transfer money <b>once</b>.<br>
+            2. Don't change the <b>payment amount</b>.
         </div>
     </div>
 
-    <div style="text-align: center; color: #1e88e5; font-size: 14px; margin-top: 15px;">ⓘ How to transfer money?</div>
-
-    <div class="apps-grid">
-        <div class="app-btn"><img src="https://upload.wikimedia.org/wikipedia/commons/7/71/PhonePe_Logo.svg">PhonePe</div>
-        <div class="app-btn"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a2/Logonet_Paytm.png">Paytm</div>
-        <div class="app-btn"><img src="https://upload.wikimedia.org/wikipedia/commons/f/f2/Google_Pay_Logo.svg">GPay</div>
-        <div class="app-btn"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/BHIM_Logo.png">BHIM</div>
-    </div>
-
-    <div class="utr-section">
-        <div style="color: #1e88e5; font-size: 13px;">↓ Fill the UTR numbers after you done payment</div>
-        <input type="text" class="utr-input" id="utr" placeholder="Input UTR number">
-        <button class="submit-btn" onclick="submitUTR()">Submit UTR</button>
-    </div>
-
-    <div class="notice">
-        <b>Notice:</b><br>
-        1. One UPI can only transfer money <b>once</b>.<br>
-        2. Don't change the <b>payment amount</b>. Otherwise, the order cannot be closed.
+    <div id="success-screen">
+        <div class="success-icon">✔</div>
+        <div class="success-title">Payment Successful</div>
+        <div class="success-msg">
+            Your UTR has been submitted.<br>
+            Please wait, your order is being processed.
+        </div>
+        <br>
+        <div style="font-size: 14px; color: #95a5a6;">Transaction ID: <span id="final-utr"></span></div>
     </div>
 </div>
 
@@ -97,13 +112,17 @@
         if(utr.length < 12) {
             alert("Please enter a valid 12-digit UTR number");
         } else {
-            alert("UTR Submitted Successfully: " + utr);
+            // Hide payment page and show success screen
+            document.getElementById('payment-page').style.display = 'none';
+            document.getElementById('success-screen').style.display = 'block';
+            document.getElementById('final-utr').innerText = utr;
         }
     }
 </script>
 
 </body>
 </html>
+
 
 
 
