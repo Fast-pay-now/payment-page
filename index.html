@@ -1,57 +1,34 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Payment Page</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-    }
-    .row {
-      margin-bottom: 15px;
-    }
-    input {
-      padding: 8px;
-      width: 220px;
-    }
-    button {
-      padding: 8px 12px;
-      margin-left: 8px;
-      cursor: pointer;
-    }
-  </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Request</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; background: #f4f4f4; }
+        .card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: inline-block; width: 90%; max-width: 350px; }
+        .amount { font-size: 35px; color: #27ae60; font-weight: bold; margin: 15px 0; }
+        .name { font-size: 20px; color: #333; margin-bottom: 5px; }
+        .vpa { color: #7f8c8d; font-size: 14px; }
+    </style>
 </head>
 <body>
+    <div class="card">
+        <div class="name">Paying to: <br><strong id="cusName">Customer</strong></div>
+        <div class="amount">₹<span id="cusAmnt">0</span></div>
+        <div class="vpa">UPI ID: <span id="cusVpa">not set</span></div>
+    </div>
 
-<h2>Payment Details</h2>
+    <script>
+        // URL থেকে ডাটা রিসিভ করার কোড
+        const params = new URLSearchParams(window.location.search);
+        const n = params.get('nameInput');
+        const a = params.get('amntInput');
+        const v = params.get('vpaInput');
 
-<div class="row">
-  <label>Name</label><br>
-  <input type="text" id="name" value="Muntasir">
-  <button onclick="copyText('name')">Copy</button>
-</div>
-
-<div class="row">
-  <label>Amount</label><br>
-  <input type="text" id="amount" value="500">
-  <button onclick="copyText('amount')">Copy</button>
-</div>
-
-<div class="row">
-  <label>UPI ID</label><br>
-  <input type="text" id="upi" value="example@upi">
-  <button onclick="copyText('upi')">Copy</button>
-</div>
-
-<script>
-  function copyText(id) {
-    const value = document.getElementById(id).value;
-    navigator.clipboard.writeText(value).then(() => {
-      alert("Copied: " + value);
-    });
-  }
-</script>
-
+        if(n) document.getElementById('cusName').innerText = decodeURIComponent(n);
+        if(a) document.getElementById('cusAmnt').innerText = a;
+        if(v) document.getElementById('cusVpa').innerText = v;
+    </script>
 </body>
 </html>
+
