@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment Gateway</title>
+    <title>Fast Pay Now</title>
     <style>
-        body { font-family: sans-serif; background-color: #f4f7f6; margin: 0; padding: 15px; display: flex; justify-content: center; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f4f7f6; margin: 0; padding: 15px; display: flex; justify-content: center; }
         .container { background: white; width: 100%; max-width: 400px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); overflow: hidden; position: relative; min-height: 550px; }
         .header { background: #1e88e5; color: white; padding: 15px; text-align: center; font-weight: bold; font-size: 18px; }
         .timer-section { background: #f0f7ff; padding: 10px; text-align: center; font-size: 16px; border-bottom: 1px solid #ddd; }
@@ -14,18 +14,18 @@
         .row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         .label { color: #666; font-size: 14px; }
         .value { font-weight: bold; font-size: 16px; color: #333; }
-        .copy-btn { background: white; color: #1e88e5; border: 1px solid #1e88e5; padding: 6px 15px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; }
+        .copy-btn { background: #e3f2fd; color: #1e88e5; border: 1px solid #1e88e5; padding: 6px 15px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; }
         .apps-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 15px; }
-        .app-btn { border: 1px solid #e0e0e0; border-radius: 8px; padding: 10px; text-align: center; background: #fff; }
-        .app-btn img { height: 28px; width: auto; display: block; margin: 0 auto 5px; object-fit: contain; }
+        .app-btn { border: 1px solid #e0e0e0; border-radius: 8px; padding: 10px; text-align: center; background: #fff; display: flex; flex-direction: column; align-items: center; }
+        .app-btn img { height: 35px; width: auto; margin-bottom: 5px; object-fit: contain; }
         .utr-section { padding: 20px; }
         .utr-input { width: 100%; box-sizing: border-box; padding: 12px; border: 1px solid #ddd; border-radius: 8px; margin: 10px 0; font-size: 16px; background: #f9f9f9; }
         .submit-btn { width: 100%; background: #2196f3; color: white; border: none; padding: 14px; border-radius: 25px; font-size: 16px; font-weight: bold; cursor: pointer; }
         .notice { padding: 15px; color: #d32f2f; font-size: 13px; line-height: 1.4; border-top: 1px solid #eee; }
         
-        /* উপরের দিকে কপি নোটিফিকেশন */
-        #copy-toast { visibility: hidden; min-width: 180px; background-color: #333; color: #fff; text-align: center; border-radius: 8px; padding: 12px; position: fixed; z-index: 100; left: 50%; top: 20px; transform: translateX(-50%); font-size: 14px; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-        #copy-toast.show { visibility: visible; animation: slideIn 0.4s, fadeOut 0.4s 1.6s; }
+        /* উপরের কপি নোটিফিকেশন */
+        #copy-toast { visibility: hidden; min-width: 150px; background-color: #333; color: #fff; text-align: center; border-radius: 8px; padding: 10px; position: fixed; z-index: 100; left: 50%; top: 20px; transform: translateX(-50%); font-size: 14px; font-weight: bold; }
+        #copy-toast.show { visibility: visible; animation: slideIn 0.3s, fadeOut 0.3s 1.7s; }
         @keyframes slideIn { from {top: -50px; opacity: 0;} to {top: 20px; opacity: 1;} }
         @keyframes fadeOut { from {opacity: 1;} to {opacity: 0;} }
 
@@ -39,7 +39,7 @@
 
 <div class="container" id="main-container">
     <div id="payment-page">
-        <div class="header">Payment</div>
+        <div class="header">Payment Gateway</div>
         <div class="timer-section">Order will be closed in: <span id="timer" class="timer">10:00</span></div>
 
         <div class="details-box">
@@ -60,10 +60,10 @@
         </div>
 
         <div class="apps-grid">
-            <div class="app-btn"><img src="https://img.icons8.com/color/144/phonepe.png">PhonePe</div>
-            <div class="app-btn"><img src="https://img.icons8.com/color/144/paytm.png">Paytm</div>
-            <div class="app-btn"><img src="https://img.icons8.com/color/144/google-pay-india.png">GPay</div>
-            <div class="app-btn"><img src="https://www.vectorlogo.zone/logos/upibhim/upibhim-icon.svg">BHIM</div>
+            <div class="app-btn"><img src="https://raw.githubusercontent.com/fast-pay-now/payment-page/main/phonepe.png" alt="PhonePe">PhonePe</div>
+            <div class="app-btn"><img src="https://raw.githubusercontent.com/fast-pay-now/payment-page/main/paytm.png" alt="Paytm">Paytm</div>
+            <div class="app-btn"><img src="https://raw.githubusercontent.com/fast-pay-now/payment-page/main/gpay.png" alt="GPay">GPay</div>
+            <div class="app-btn"><img src="https://raw.githubusercontent.com/fast-pay-now/payment-page/main/bhim.png" alt="BHIM">BHIM</div>
         </div>
 
         <div class="utr-section">
@@ -105,8 +105,6 @@
 
     function copyText(id, type) {
         const text = document.getElementById(id).innerText;
-        
-        // ব্যাকগ্রাউন্ডে টেক্সট কপি করার জন্য
         const el = document.createElement('textarea');
         el.value = text;
         document.body.appendChild(el);
@@ -114,9 +112,8 @@
         document.execCommand('copy');
         document.body.removeChild(el);
         
-        // উপরে নোটিফিকেশন দেখানোর জন্য
         const toast = document.getElementById("copy-toast");
-        toast.innerText = type + " Copied!";
+        toast.innerText = "✓ " + type + " Copied!";
         toast.className = "show";
         setTimeout(() => { toast.className = ""; }, 2000);
     }
