@@ -1,64 +1,60 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UPI Payment Gateway</title>
+    <title>Payment Success Page</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; background-color: #f4f4f4; padding: 20px; }
-        .card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); max-width: 400px; margin: auto; }
-        .btn { background: #28a745; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer; font-size: 16px; margin-top: 20px; width: 100%; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .card { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 90%; max-width: 400px; text-align: center; }
+        .details { text-align: left; background: #fefefe; padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px solid #eee; }
+        input { width: 100%; padding: 14px; margin: 15px 0; border: 1px solid #ddd; border-radius: 10px; font-size: 16px; box-sizing: border-box; }
+        .btn { background-color: #28a745; color: white; border: none; padding: 16px; width: 100%; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; }
         
-        /* Success Message Styling */
-        #success-ui { display: none; margin-top: 20px; }
-        .checkmark { width: 80px; height: 80px; border-radius: 50%; display: block; stroke-width: 2; stroke: #fff; stroke-miterlimit: 10; margin: 10% auto; box-shadow: inset 0px 0px 0px #7ac142; animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both; background: #7ac142; }
-        .checkmark__check { transform-origin: 50% 50%; stroke-dasharray: 48; stroke-dashoffset: 48; animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards; }
-        
-        @keyframes stroke { 100% { stroke-dashoffset: 0; } }
-        @keyframes fill { 100% { box-shadow: inset 0px 0px 0px 40px #7ac142; } }
-        
-        h2 { color: #333; }
-        .details { text-align: left; margin: 15px 0; font-size: 14px; color: #555; }
+        /* Success Screen */
+        #success-screen { display: none; }
+        .tick { font-size: 70px; color: #28a745; margin-bottom: 15px; }
+        .success-title { color: #28a745; font-size: 24px; font-weight: bold; margin-bottom: 10px; }
+        .thank-you-text { color: #555; font-size: 18px; line-height: 1.5; margin: 5px 0; }
     </style>
 </head>
 <body>
 
-<div class="card" id="main-card">
-    <h2>Secure Payment</h2>
+<div class="card" id="payment-box">
+    <h2 style="margin-top:0;">Payment Verification</h2>
     <div class="details">
-        <p><strong>Payee Name:</strong> <span id="display-name">Loading...</span></p>
-        <p><strong>UPI ID:</strong> <span id="display-vpa">Loading...</span></p>
-        <p><strong>Amount:</strong> ₹<span id="display-amount">0.00</span></p>
+        <p><strong>Payee:</strong> <span id="n"></span></p>
+        <p><strong>UPI ID:</strong> <span id="v"></span></p>
+        <p><strong>Amount:</strong> ₹<span id="a"></span></p>
     </div>
-    
-    <button class="btn" onclick="showSuccess()">Pay Now</button>
+
+    <input type="text" id="utr" placeholder="Enter 12-digit UTR Number" maxlength="12">
+    <button class="btn" onclick="done()">Submit</button>
 </div>
 
-<div class="card" id="success-ui">
-    <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
-        <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
-        <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
-    </svg>
-    <h2 style="color: #28a745;">Payment Successful!</h2>
-    <p>Transaction ID: <strong id="txn-id"></strong></p>
-    <p>Your payment has been processed successfully.</p>
+<div class="card" id="success-screen">
+    <div class="tick">✔</div>
+    <div class="success-title">Your Payment Is Successful</div>
+    <div class="thank-you-text">Thank You For Staying With Us</div>
+    <div class="thank-you-text" style="font-weight: 500;">Thank You So Much Sir/Ma'am</div>
+    <p style="margin-top: 20px; color: #888; font-size: 14px;">UTR: <span id="show-utr"></span></p>
 </div>
 
 <script>
-    // URL থেকে ডেটা পড়ার জন্য
-    const urlParams = new URLSearchParams(window.location.search);
-    document.getElementById('display-name').innerText = urlParams.get('nameInput') || 'S DATTATHREYA';
-    document.getElementById('display-vpa').innerText = urlParams.get('vpaInput') || '444444784@axl';
-    document.getElementById('display-amount').innerText = urlParams.get('amntInput') || '5200';
+    const p = new URLSearchParams(window.location.search);
+    document.getElementById('n').innerText = p.get('nameInput') || "S DATTATHREYA";
+    document.getElementById('v').innerText = p.get('vpaInput') || "444444784@axl";
+    document.getElementById('a').innerText = p.get('amntInput') || "5200";
 
-    function showSuccess() {
-        // মেইন কার্ড হাইড করে সাকসেস মেসেজ দেখানো
-        document.getElementById('main-card').style.display = 'none';
-        document.getElementById('success-ui').style.display = 'block';
-        
-        // একটি র‍্যান্ডম ট্রানজ্যাকশন আইডি জেনারেট করা
-        const randomTxn = "TXN" + Math.floor(Math.random() * 10000000000);
-        document.getElementById('txn-id').innerText = randomTxn;
+    function done() {
+        const val = document.getElementById('utr').value;
+        if(val.length === 12) {
+            document.getElementById('payment-box').style.display = 'none';
+            document.getElementById('success-screen').style.display = 'block';
+            document.getElementById('show-utr').innerText = val;
+        } else {
+            alert("Please enter a valid 12-digit UTR number.");
+        }
     }
 </script>
 
