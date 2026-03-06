@@ -3,61 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment Gateway</title>
+    <title>Premium Payment Gateway</title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; background-color: #fcfcfc; color: #333; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; background-color: #fcfcfc; color: #333; overflow-x: hidden; }
         
-        /* Header & Sub-header */
-        .header { background: #ea5455; color: white; padding: 10px 15px; display: flex; align-items: center; justify-content: center; position: relative; height: 30px; }
+        /* Header */
+        .header { background: #ea5455; color: white; padding: 10px 15px; display: flex; align-items: center; justify-content: center; position: relative; height: 35px; }
         .back-btn { font-size: 28px; cursor: pointer; color: white; border: none; background: none; position: absolute; left: 10px; line-height: 1; }
         .header-text { font-size: 16px; font-weight: 600; }
         .sub-header { background: #3b82f6; color: white; padding: 12px; text-align: center; font-size: 16px; font-weight: 500; }
         
-        /* Container & Cards */
         .container { padding: 15px; }
         .timer-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; font-size: 14px; }
         .t-unit { background: #3b82f6; color: white; padding: 2px 6px; border-radius: 4px; font-weight: bold; margin: 0 2px; }
+        
+        /* Cards */
         .data-card { background: white; border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
         .label { color: #6b7280; font-size: 14px; width: 30%; }
-        .val { font-weight: bold; font-size: 15px; flex-grow: 1; text-align: right; margin-right: 15px; }
-        .copy-btn { border: 1px solid #3b82f6; color: #3b82f6; background: white; padding: 6px 16px; border-radius: 4px; font-size: 13px; cursor: pointer; }
+        .val { font-weight: bold; font-size: 15px; flex-grow: 1; text-align: right; margin-right: 15px; color: #111827; }
+        .copy-btn { border: 1px solid #3b82f6; color: #3b82f6; background: white; padding: 6px 16px; border-radius: 4px; font-size: 13px; cursor: pointer; font-weight: 500; }
 
         .help-link { color: #3b82f6; font-size: 13px; text-decoration: none; display: inline-block; margin: 15px 0; cursor: pointer; }
 
         /* Apps Grid */
         .grid-apps { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
         .app-box { background: white; border: 1px solid #e5e7eb; border-radius: 8px; height: 65px; display: flex; align-items: center; justify-content: center; }
-        .pp-color { color: #5f259f; font-weight: bold; font-size: 18px; }
-        .gp-color { font-weight: bold; font-size: 18px; }
+        .pp-text { color: #5f259f; font-weight: bold; font-size: 18px; }
+        .gp-text { font-weight: bold; font-size: 18px; display: flex; gap: 1px; }
 
-        /* Input & Button */
-        .utr-input-box { border-bottom: 1px solid #f3f4f6; display: flex; align-items: center; padding: 12px 0; margin-bottom: 15px; }
-        .utr-input-box b { margin-right: 15px; }
-        .utr-input-box input { border: none; outline: none; font-size: 16px; width: 100%; }
+        /* UTR Section */
+        .utr-hint { color: #3b82f6; font-size: 13px; margin-bottom: 8px; display: block; }
+        .utr-input-box { border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; padding: 12px 0; margin-bottom: 20px; }
+        .utr-input-box b { margin-right: 15px; font-size: 16px; }
+        .utr-input-box input { border: none; outline: none; font-size: 16px; width: 100%; color: #333; }
         .submit-btn { background: #3b82f6; color: white; border: none; width: 100%; padding: 14px; border-radius: 30px; font-size: 16px; font-weight: bold; cursor: pointer; }
 
-        /* কাস্টম গ্রিন সাকসেস পপ-আপ ডিজাইন */
-        #success-popup {
-            display: none; 
-            position: fixed; 
-            top: 50%; 
-            left: 50%; 
-            transform: translate(-50%, -50%); 
-            background-color: #10b981; /* সবুজ রঙ */
-            color: white; 
-            padding: 25px; 
-            border-radius: 15px; 
-            text-align: center; 
-            z-index: 2000; 
-            width: 80%; 
-            max-width: 300px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-        }
-        #success-popup h2 { margin: 0 0 10px 0; font-size: 20px; }
-        #success-popup p { margin: 0 0 20px 0; font-size: 14px; }
-        #success-popup .ok-btn { background: white; color: #10b981; border: none; padding: 10px 30px; border-radius: 20px; font-weight: bold; cursor: pointer; }
-
-        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1999; }
+        /* পপ-আপ ডিজাইন (Common for both) */
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; }
+        .modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; border-radius: 20px; z-index: 1001; width: 85%; max-width: 350px; text-align: center; padding: 25px 20px; }
+        
+        /* Success Popup specific */
+        .success-modal { background-color: #52b788; color: white; }
+        .tick-icon { font-size: 50px; margin-bottom: 10px; }
+        .modal .white-btn { background: white; color: #52b788; border: none; padding: 10px 40px; border-radius: 25px; font-weight: bold; margin-top: 15px; cursor: pointer; }
+        
+        /* How to transfer specific */
+        .guide-img { width: 100%; border-radius: 10px; margin: 15px 0; border: 1px solid #ddd; }
+        .close-guide { color: #3b82f6; font-weight: bold; cursor: pointer; font-size: 16px; }
 
         .notice { margin-top: 20px; font-size: 12px; font-weight: bold; color: #ef4444; line-height: 1.5; }
     </style>
@@ -73,7 +65,7 @@
 <div class="container">
     <div class="timer-row">
         <span>Order will be closed in:</span>
-        <span><span class="t-unit" id="m">8</span> : <span class="t-unit" id="s">45</span></span>
+        <span><span class="t-unit" id="m">8</span> : <span class="t-unit" id="s">25</span></span>
     </div>
 
     <div class="data-card">
@@ -92,22 +84,25 @@
         <button class="copy-btn" onclick="copy('vpa')">COPY</button>
     </div>
 
-    <div class="help-link">②How to transfer money🔗</div>
+    <div class="help-link" onclick="openGuide()">②How to transfer money🔗</div>
 
     <div class="grid-apps">
-        <div class="app-box"><span class="pp-color">PhonePe</span></div>
+        <div class="app-box"><span class="pp-text">PhonePe</span></div>
         <div class="app-box">
-            <div class="gp-color">
+            <div class="gp-text">
                 <span style="color: #4285F4;">G</span><span style="color: #EA4335;">P</span><span style="color: #FBBC05;">a</span><span style="color: #34A853;">y</span>
             </div>
         </div>
     </div>
 
-    <div class="utr-input-box">
-        <b>UTR</b>
-        <input type="text" id="utr_input" placeholder="Input UTR number" maxlength="12">
+    <div class="utr-section">
+        <span class="utr-hint">↓ Fill the UTR numbers after you done payment</span>
+        <div class="utr-input-box">
+            <b>UTR</b>
+            <input type="text" id="utr_input" placeholder="Input UTR number" maxlength="12">
+        </div>
+        <button class="submit-btn" onclick="submitUTR()">Submit UTR</button>
     </div>
-    <button class="submit-btn" onclick="submitUTR()">Submit UTR</button>
 
     <div class="notice">
         Notice:<br>
@@ -117,39 +112,51 @@
 </div>
 
 <div class="overlay" id="overlay"></div>
-<div id="success-popup">
-    <div style="font-size: 40px; margin-bottom: 10px;">✔</div>
+
+<div id="guide-modal" class="modal">
+    <h3>How to Pay</h3>
+    <p style="font-size: 14px; color: #666;">Step by step guide:</p>
+    <img src="https://via.placeholder.com/300x400.png?text=Step+1:+Copy+UPI%0AStep+2:+Open+App%0AStep+3:+Pay+Amount" alt="Payment Guide" class="guide-img">
+    <div class="close-guide" onclick="closeAll()">Close Guide</div>
+</div>
+
+<div id="success-modal" class="modal success-modal">
+    <div class="tick-icon">✓</div>
     <h2>Payment Successful</h2>
     <p>Thanks for your payment!</p>
-    <button class="ok-btn" onclick="closeSuccess()">Close</button>
+    <button class="white-btn" onclick="closeAll()">Close</button>
 </div>
 
 <script>
-    function copy(id) {
-        const t = document.getElementById(id).innerText;
-        navigator.clipboard.writeText(t);
-        alert("Copied!");
+    function openGuide() {
+        document.getElementById('overlay').style.display = 'block';
+        document.getElementById('guide-modal').style.display = 'block';
     }
 
     function submitUTR() {
-        const utrVal = document.getElementById('utr_input').value;
-        if(utrVal.length === 12) {
-            // পপ-আপ দেখাবে
+        const utr = document.getElementById('utr_input').value;
+        if(utr.length === 12) {
             document.getElementById('overlay').style.display = 'block';
-            document.getElementById('success-popup').style.display = 'block';
+            document.getElementById('success-modal').style.display = 'block';
         } else {
             alert("Please enter a valid 12-digit UTR number");
         }
     }
 
-    function closeSuccess() {
+    function closeAll() {
         document.getElementById('overlay').style.display = 'none';
-        document.getElementById('success-popup').style.display = 'none';
-        // ইচ্ছা করলে এখানে পেজ রিফ্রেশ বা রিডাইরেক্ট কোড দিতে পারেন
+        document.getElementById('guide-modal').style.display = 'none';
+        document.getElementById('success-modal').style.display = 'none';
     }
 
-    // টাইমার
-    let totalSec = (8 * 60) + 45;
+    function copy(id) {
+        const text = document.getElementById(id).innerText;
+        navigator.clipboard.writeText(text);
+        alert("Copied!");
+    }
+
+    // Timer
+    let totalSec = (8 * 60) + 25;
     setInterval(() => {
         if(totalSec <= 0) return;
         totalSec--;
