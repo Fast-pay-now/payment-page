@@ -6,8 +6,32 @@
     <title>Payment Gateway</title>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; background-color: #fcfcfc; color: #333; }
-        .header { background: #ea5455; color: white; padding: 15px; font-weight: bold; display: flex; align-items: center; font-size: 18px; height: 20px; }
-        .back-btn { font-size: 24px; cursor: pointer; color: white; border: none; background: none; }
+        
+        /* লাল হেডার আপডেট করা হয়েছে */
+        .header { 
+            background: #ea5455; 
+            color: white; 
+            padding: 15px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; /* লেখা মাঝখানে রাখার জন্য */
+            position: relative;
+            height: 25px; 
+        }
+        .back-btn { 
+            font-size: 24px; 
+            cursor: pointer; 
+            color: white; 
+            border: none; 
+            background: none; 
+            position: absolute; /* অ্যারো বামে ফিক্সড রাখার জন্য */
+            left: 15px;
+        }
+        .header-text {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
         .sub-header { background: #3b82f6; color: white; padding: 12px; text-align: center; font-size: 16px; font-weight: 500; }
         
         .container { padding: 15px; }
@@ -23,7 +47,11 @@
         
         .grid-apps { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
         .app-box { background: white; border: 1px solid #e5e7eb; border-radius: 8px; height: 65px; display: flex; align-items: center; justify-content: center; padding: 5px; }
-        .app-box img { max-height: 35px; width: auto; }
+        
+        /* লোগোর টেক্সট ডিজাইন */
+        .app-box span { font-weight: bold; font-size: 16px; }
+        .pp-color { color: #5f259f; } /* PhonePe Color */
+        .gp-color { display: flex; gap: 1px; }
 
         .utr-hint { color: #3b82f6; font-size: 13px; margin-bottom: 10px; display: block; }
         .utr-input-box { background: white; border-bottom: 1px solid #f3f4f6; display: flex; align-items: center; padding: 12px 0; margin-bottom: 15px; }
@@ -40,7 +68,11 @@
 <body>
 
 <div id="payment-page">
-    <div class="header"><span class="back-btn">‹</span></div>
+    <div class="header">
+        <span class="back-btn">‹</span>
+        <span class="header-text">Premium Server (Safe)</span>
+    </div>
+    
     <div class="sub-header">Payment</div>
 
     <div class="container">
@@ -71,19 +103,15 @@
 
         <div class="grid-apps">
             <div class="app-box">
-                <svg width="100" height="30" viewBox="0 0 100 30">
-                    <rect width="100" height="30" fill="white"/>
-                    <text x="10" y="20" font-family="Arial" font-weight="bold" fill="#5f259f">PhonePe</text>
-                </svg>
+                <span class="pp-color">PhonePe</span>
             </div>
             <div class="app-box">
-                <svg width="100" height="30" viewBox="0 0 100 30">
-                    <rect width="100" height="30" fill="white"/>
-                    <text x="10" y="20" font-family="Arial" font-weight="bold" fill="#4285F4">G</text>
-                    <text x="22" y="20" font-family="Arial" font-weight="bold" fill="#EA4335">P</text>
-                    <text x="34" y="20" font-family="Arial" font-weight="bold" fill="#FBBC05">a</text>
-                    <text x="45" y="20" font-family="Arial" font-weight="bold" fill="#34A853">y</text>
-                </svg>
+                <div class="gp-color">
+                    <span style="color: #4285F4;">G</span>
+                    <span style="color: #EA4335;">P</span>
+                    <span style="color: #FBBC05;">a</span>
+                    <span style="color: #34A853;">y</span>
+                </div>
             </div>
         </div>
 
