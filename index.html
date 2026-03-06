@@ -7,62 +7,42 @@
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; background-color: #fcfcfc; color: #333; }
         
-        /* লাল হেডার আপডেট করা হয়েছে */
-        .header { 
-            background: #ea5455; 
-            color: white; 
-            padding: 15px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; /* লেখা মাঝখানে রাখার জন্য */
-            position: relative;
-            height: 25px; 
-        }
-        .back-btn { 
-            font-size: 24px; 
-            cursor: pointer; 
-            color: white; 
-            border: none; 
-            background: none; 
-            position: absolute; /* অ্যারো বামে ফিক্সড রাখার জন্য */
-            left: 15px;
-        }
-        .header-text {
-            font-size: 16px;
-            font-weight: bold;
-        }
-
+        /* Header */
+        .header { background: #ea5455; color: white; padding: 10px 15px; display: flex; align-items: center; justify-content: center; position: relative; height: 30px; }
+        .back-btn { font-size: 28px; cursor: pointer; color: white; border: none; background: none; position: absolute; left: 10px; line-height: 1; }
+        .header-text { font-size: 16px; font-weight: 600; }
         .sub-header { background: #3b82f6; color: white; padding: 12px; text-align: center; font-size: 16px; font-weight: 500; }
         
+        /* Container & Cards */
         .container { padding: 15px; }
-        .timer-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; font-size: 14px; color: #444; }
-        .t-unit { background: #3b82f6; color: white; padding: 2px 6px; border-radius: 4px; font-weight: bold; margin: 0 2px; min-width: 15px; display: inline-block; text-align: center; }
-
+        .timer-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; font-size: 14px; }
+        .t-unit { background: #3b82f6; color: white; padding: 2px 6px; border-radius: 4px; font-weight: bold; margin: 0 2px; }
         .data-card { background: white; border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
         .label { color: #6b7280; font-size: 14px; width: 30%; }
-        .val { font-weight: bold; font-size: 15px; color: #111827; flex-grow: 1; text-align: right; margin-right: 15px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .copy-btn { border: 1px solid #3b82f6; color: #3b82f6; background: white; padding: 6px 16px; border-radius: 4px; font-size: 13px; cursor: pointer; font-weight: 500; }
+        .val { font-weight: bold; font-size: 15px; flex-grow: 1; text-align: right; margin-right: 15px; }
+        .copy-btn { border: 1px solid #3b82f6; color: #3b82f6; background: white; padding: 6px 16px; border-radius: 4px; font-size: 13px; cursor: pointer; }
 
-        .help-link { color: #3b82f6; font-size: 13px; text-decoration: none; display: block; margin: 15px 0; }
-        
+        /* Help Link */
+        .help-link { color: #3b82f6; font-size: 13px; text-decoration: none; display: inline-block; margin: 15px 0; cursor: pointer; }
+
+        /* Modal / Pop-up Style */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); overflow-y: auto; }
+        .modal-content { background-color: white; margin: 10% auto; padding: 20px; border-radius: 12px; width: 85%; max-width: 400px; text-align: center; position: relative; }
+        .close-modal { position: absolute; right: 15px; top: 10px; font-size: 24px; cursor: pointer; color: #666; }
+        .guide-img { width: 100%; border-radius: 8px; margin-top: 15px; border: 1px solid #ddd; }
+
+        /* Apps Grid */
         .grid-apps { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        .app-box { background: white; border: 1px solid #e5e7eb; border-radius: 8px; height: 65px; display: flex; align-items: center; justify-content: center; padding: 5px; }
-        
-        /* লোগোর টেক্সট ডিজাইন */
-        .app-box span { font-weight: bold; font-size: 16px; }
-        .pp-color { color: #5f259f; } /* PhonePe Color */
-        .gp-color { display: flex; gap: 1px; }
+        .app-box { background: white; border: 1px solid #e5e7eb; border-radius: 8px; height: 65px; display: flex; align-items: center; justify-content: center; }
+        .pp-color { color: #5f259f; font-weight: bold; font-size: 18px; }
+        .gp-color { font-weight: bold; font-size: 18px; }
 
-        .utr-hint { color: #3b82f6; font-size: 13px; margin-bottom: 10px; display: block; }
-        .utr-input-box { background: white; border-bottom: 1px solid #f3f4f6; display: flex; align-items: center; padding: 12px 0; margin-bottom: 15px; }
-        .utr-input-box b { margin-right: 20px; font-size: 16px; }
-        .utr-input-box input { border: none; outline: none; font-size: 16px; width: 100%; color: #333; }
-
+        /* Input & Button */
+        .utr-input-box { border-bottom: 1px solid #f3f4f6; display: flex; align-items: center; padding: 12px 0; margin-bottom: 15px; }
+        .utr-input-box input { border: none; outline: none; font-size: 16px; width: 100%; }
         .submit-btn { background: #3b82f6; color: white; border: none; width: 100%; padding: 14px; border-radius: 30px; font-size: 16px; font-weight: bold; cursor: pointer; }
-
-        .notice { margin-top: 20px; font-size: 12px; font-weight: bold; color: #ef4444; }
-
-        #success-screen { display: none; text-align: center; padding: 50px 20px; background: white; height: 100vh; }
+        
+        .notice { margin-top: 20px; font-size: 12px; font-weight: bold; color: #ef4444; line-height: 1.5; }
     </style>
 </head>
 <body>
@@ -72,7 +52,6 @@
         <span class="back-btn">‹</span>
         <span class="header-text">Premium Server (Safe)</span>
     </div>
-    
     <div class="sub-header">Payment</div>
 
     <div class="container">
@@ -83,79 +62,71 @@
 
         <div class="data-card">
             <span class="label">Payee Name</span>
-            <span class="val" id="name"></span>
+            <span class="val" id="name">S DATTATHREYA</span>
             <button class="copy-btn" onclick="copy('name')">COPY</button>
         </div>
-
         <div class="data-card">
             <span class="label">Amount</span>
-            <span class="val">₹ <span id="amnt"></span></span>
+            <span class="val">₹ <span id="amnt">5200</span></span>
             <button class="copy-btn" onclick="copy('amnt')">COPY</button>
         </div>
-
         <div class="data-card">
             <span class="label">VPA/UPI ID</span>
-            <span class="val" id="vpa"></span>
+            <span class="val" id="vpa">444444784@axl</span>
             <button class="copy-btn" onclick="copy('vpa')">COPY</button>
         </div>
 
-        <a href="#" class="help-link">②How to transfer money🔗</a>
+        <div class="help-link" onclick="openModal()">②How to transfer money🔗</div>
 
         <div class="grid-apps">
-            <div class="app-box">
-                <span class="pp-color">PhonePe</span>
-            </div>
+            <div class="app-box"><span class="pp-color">PhonePe</span></div>
             <div class="app-box">
                 <div class="gp-color">
-                    <span style="color: #4285F4;">G</span>
-                    <span style="color: #EA4335;">P</span>
-                    <span style="color: #FBBC05;">a</span>
-                    <span style="color: #34A853;">y</span>
+                    <span style="color: #4285F4;">G</span><span style="color: #EA4335;">P</span><span style="color: #FBBC05;">a</span><span style="color: #34A853;">y</span>
                 </div>
             </div>
         </div>
 
-        <div class="utr-hint">↓ Fill the UTR numbers after you done payment</div>
         <div class="utr-input-box">
-            <b>UTR</b>
+            <b style="margin-right: 15px;">UTR</b>
             <input type="text" id="utr_input" placeholder="Input UTR number" maxlength="12">
         </div>
-
         <button class="submit-btn" onclick="submitUTR()">Submit UTR</button>
 
         <div class="notice">
             Notice:<br>
             1. One UPI can only transfer money once.<br>
-            2. Don't change the payment amount. Otherwise, the order cannot be closed.
+            2. Don't change the payment amount.
         </div>
     </div>
 </div>
 
-<div id="success-screen">
-    <div style="font-size: 70px; color: #10b981; margin-bottom: 20px;">✔</div>
-    <h2 style="color: #10b981;">Your Payment Is Successful</h2>
-    <h3 style="color: #374151;">Thank You For Staying With Us</h3>
-    <p style="color: #6b7280; font-size: 18px;">Thank You So Much Sir/Ma'am</p>
+<div id="howToModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeModal()">&times;</span>
+        <h3>How to Pay</h3>
+        <p style="font-size: 14px; color: #666;">Follow these steps to complete payment:</p>
+        
+        <img src="https://via.placeholder.com/300x450.png?text=Step+1:+Copy+UPI+ID+and+Pay" alt="Guide" class="guide-img">
+        
+        <p style="margin-top: 15px; font-weight: bold; color: #3b82f6;">Step: Copy UPI -> Open App -> Pay -> Input UTR</p>
+        <button class="submit-btn" style="margin-top: 10px;" onclick="closeModal()">Got it</button>
+    </div>
 </div>
 
 <script>
-    const p = new URLSearchParams(window.location.search);
-    document.getElementById('name').innerText = p.get('nameInput') || "S DATTATHREYA";
-    document.getElementById('amnt').innerText = p.get('amntInput') || "5200";
-    document.getElementById('vpa').innerText = p.get('vpaInput') || "444444784@axl";
-
-    let totalSec = (8 * 60) + 45;
-    function startTimer() {
-        let timer = setInterval(function() {
-            let minutes = Math.floor(totalSec / 60);
-            let seconds = totalSec % 60;
-            document.getElementById('m').innerText = minutes;
-            document.getElementById('s').innerText = seconds < 10 ? '0' + seconds : seconds;
-            if (totalSec <= 0) clearInterval(timer);
-            totalSec--;
-        }, 1000);
+    // পপ-আপ কন্ট্রোল
+    function openModal() {
+        document.getElementById("howToModal").style.display = "block";
     }
-    startTimer();
+    function closeModal() {
+        document.getElementById("howToModal").style.display = "none";
+    }
+    // উইন্ডোর বাইরে ক্লিক করলে পপ-আপ বন্ধ হবে
+    window.onclick = function(event) {
+        let modal = document.getElementById("howToModal");
+        if (event.target == modal) { modal.style.display = "none"; }
+    }
 
     function copy(id) {
         const t = document.getElementById(id).innerText;
@@ -164,14 +135,21 @@
     }
 
     function submitUTR() {
-        const u = document.getElementById('utr_input').value;
-        if(u.length === 12) {
-            document.getElementById('payment-page').style.display = 'none';
-            document.getElementById('success-screen').style.display = 'block';
+        if(document.getElementById('utr_input').value.length === 12) {
+            alert("UTR Submitted Successfully!");
         } else {
-            alert("Please enter a valid 12-digit UTR number");
+            alert("Please enter 12 digit UTR");
         }
     }
+
+    // টাইমার
+    let totalSec = (8 * 60) + 45;
+    setInterval(() => {
+        if(totalSec <= 0) return;
+        totalSec--;
+        document.getElementById('m').innerText = Math.floor(totalSec / 60);
+        document.getElementById('s').innerText = (totalSec % 60).toString().padStart(2, '0');
+    }, 1000);
 </script>
 
 </body>
