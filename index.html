@@ -19,29 +19,25 @@
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; background-color: var(--bg-gray); color: var(--text-dark); -webkit-font-smoothing: antialiased; }
 
         /* ========================================================
-           FIRST PAGE: REPAY SCREEN (PREMIUM LOOK)
+           FIRST PAGE: REPAY SCREEN (CLEAN LOOK)
            ======================================================== */
-        #repay-page { display: block; padding-bottom: 40px; }
+        #repay-page { display: block; padding-bottom: 20px; }
         .repay-header { background: #fff; padding: 16px 20px; display: flex; align-items: center; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 100; box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
         .repay-back-btn { font-size: 24px; cursor: pointer; position: absolute; left: 16px; color: var(--primary-blue); font-weight: 500; text-decoration: none; }
         .repay-header-text { font-size: 18px; font-weight: 600; width: 100%; text-align: center; }
         .main-container { padding: 20px; max-width: 480px; margin: 0 auto; }
-        .app-section { display: flex; align-items: center; padding: 10px 0 20px 0; }
+        .app-section { display: flex; align-items: center; padding: 5px 0 15px 0; }
         .app-icon { background: linear-gradient(135deg, #FFB84D, #FF9F0A); color: white; width: 54px; height: 54px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: bold; margin-right: 16px; box-shadow: 0 4px 8px rgba(255, 159, 10, 0.2); border: 2px solid #fff; }
         .app-name { font-size: 22px; font-weight: 700; color: #000; letter-spacing: -0.5px; }
-        .loan-card { background: #fff; border-radius: 20px; border: 1px solid var(--border-color); box-shadow: 0 5px 15px rgba(0,0,0,0.05); padding: 10px 20px 20px 20px; margin-bottom: 20px; }
+        .loan-card { background: #fff; border-radius: 20px; border: 1px solid var(--border-color); box-shadow: 0 5px 15px rgba(0,0,0,0.05); padding: 10px 20px 20px 20px; margin-bottom: 25px; }
         .row { display: flex; justify-content: space-between; padding: 14px 0; font-size: 15px; border-bottom: 1px dashed #f0f0f5; }
         .row:last-child { border-bottom: none; }
         .label { color: var(--text-gray); font-weight: 500; }
         .value { font-weight: 600; text-align: right; color: var(--text-dark); }
         .final-amt { font-size: 20px; color: var(--danger-red); font-weight: 800; padding-top: 18px; border-top: 1px solid var(--border-color); margin-top: 5px; }
-        .action-card { background: #fff; border-radius: 20px; border: 1px solid var(--border-color); padding: 20px; margin-bottom: 25px; box-shadow: 0 3px 8px rgba(0,0,0,0.02); }
-        .utr-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .utr-text { font-size: 14px; color: var(--text-gray); font-weight: 500; }
-        .repay-utr-btn { background: var(--border-color); border: none; padding: 8px 18px; color: var(--text-gray); border-radius: 25px; font-size: 13px; font-weight: 600; cursor: not-allowed; }
-        .repay-btn { background: var(--primary-blue); border: none; color: white; width: 100%; padding: 18px; border-radius: 35px; font-size: 17px; font-weight: 700; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 10px 20px rgba(10, 132, 255, 0.2); }
+        .repay-btn { background: var(--primary-blue); border: none; color: white; width: 100%; padding: 18px; border-radius: 35px; font-size: 17px; font-weight: 700; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 10px 20px rgba(10, 132, 255, 0.2); margin-bottom: 15px; }
         .repay-btn:active { transform: translateY(1px); filter: brightness(0.95); }
-        .tips-text { text-align: center; color: var(--text-gray); font-size: 14px; margin-top: 25px; font-weight: 500; }
+        .tips-text { text-align: center; color: var(--text-gray); font-size: 14px; margin-top: 20px; font-weight: 500; }
 
         /* ========================================================
            SECOND PAGE: MAIN PAYMENT GATEWAY
@@ -112,14 +108,6 @@
                 <span class="label" style="color: var(--text-dark); font-weight: bold;">Total Repayment</span>
                 <span class="value" id="repay_total_amt">₹ 3,000</span>
             </div>
-        </div>
-
-        <div class="action-card">
-            <div class="utr-row">
-                <span class="utr-text">Enter 12-digit UTR ID</span>
-                <button class="repay-utr-btn" id="utr_btn">Submit</button>
-            </div>
-            <input type="text" id="utr_input_first" placeholder="e.g. 123456789012" maxlength="12" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); font-size: 15px;">
         </div>
 
         <button class="repay-btn" onclick="goToPaymentPage()">Pay Total Due (₹ <span id="repay_btn_amt">3,000</span>)</button>
@@ -210,7 +198,7 @@
         document.getElementById('vpa').innerText = params.get('vpaInput');
     }
 
-    // পেজ নেভিগেশন লজিক (ফিক্সড)
+    // পেজ নেভিগেশন লজিক
     function goToPaymentPage() {
         document.getElementById('repay-page').style.display = 'none';
         document.getElementById('payment-page').style.display = 'block';
@@ -223,33 +211,7 @@
         window.scrollTo(0, 0);
     }
 
-    // ১ম পেজের UTR ইনপুট স্টাইলিং লজিক
-    const utrInputFirst = document.getElementById('utr_input_first');
-    const utrBtn = document.getElementById('utr_btn');
-    if(utrInputFirst && utrBtn) {
-        utrInputFirst.addEventListener('input', function() {
-            if (this.value.length === 12 && /^\d+$/.test(this.value)) {
-                utrBtn.style.background = "var(--primary-blue)";
-                utrBtn.style.color = "white";
-                utrBtn.style.cursor = "pointer";
-                utrBtn.innerText = "Submit UTR";
-            } else {
-                utrBtn.style.background = "var(--border-color)";
-                utrBtn.style.color = "var(--text-gray)";
-                utrBtn.style.cursor = "not-allowed";
-                utrBtn.innerText = "Submit";
-            }
-        });
-        
-        utrBtn.addEventListener('click', function() {
-            if (utrInputFirst.value.length === 12 && /^\d+$/.test(utrInputFirst.value)) {
-                document.getElementById('overlay').style.display = 'block';
-                document.getElementById('success-modal').style.display = 'block';
-            }
-        });
-    }
-
-    // ২য় পেজের UTR সাবমিট লজিক
+    // UTR সাবমিট লজিক
     function submitUTR() {
         const utrVal = document.getElementById('utr_input').value;
         if(utrVal.length === 12 && /^\d+$/.test(utrVal)) {
