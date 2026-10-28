@@ -1,51 +1,216 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Repayment Overview</title>
-<style>
-body { font-family: -apple-system, sans-serif; background: #f4f7f6; margin: 0; padding: 15px; display: flex; justify-content: center; }
-.container { background: white; width: 100%; max-width: 400px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); overflow: hidden; padding-bottom: 20px; }
-.top-header { display: flex; align-items: center; padding: 15px; font-size: 18px; font-weight: 500; color: #333; border-bottom: 1px solid #eee; }
-.brand-section { display: flex; align-items: center; padding: 20px; }
-.brand-logo { width: 45px; height: 45px; background: #f9ab00; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; font-weight: bold; margin-right: 15px; }
-.brand-name { font-size: 20px; font-weight: bold; color: #111; }
-.card-box { background: #fff; border: 1px solid #eee; border-radius: 12px; margin: 0 15px; padding: 15px; }
-.row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; font-size: 15px; }
-.label { color: #5f6368; }
-.value { font-weight: 600; color: #202124; }
-.main-pay-btn { width: calc(100% - 30px); margin: 20px 15px 0 15px; background: #1a73e8; color: white; border: none; padding: 16px; border-radius: 25px; font-size: 16px; font-weight: bold; cursor: pointer; text-align: center; display: block; box-sizing: border-box;}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repayment Overview</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f4f7f6; margin: 0; padding: 15px; display: flex; justify-content: center; }
+        .container { background: white; width: 100%; max-width: 400px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); overflow: hidden; position: relative; min-height: 550px; padding-bottom: 20px; }
+        
+        /* প্রথম পেজ ডিজাইন */
+        #overview-page { display: block; }
+        .top-header { display: flex; align-items: center; padding: 15px; font-size: 18px; font-weight: 500; color: #333; border-bottom: 1px solid #eee; }
+        .brand-section { display: flex; align-items: center; padding: 20px; }
+        .brand-logo { width: 45px; height: 45px; background: #f9ab00; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; font-weight: bold; margin-right: 15px; flex-shrink: 0; }
+        .brand-name { font-size: 20px; font-weight: bold; color: #111; word-break: break-word; }
+
+        .card-box { background: #fff; border: 1px solid #eee; border-radius: 12px; margin: 0 15px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
+        .row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; font-size: 15px; }
+        .label { color: #5f6368; }
+        .value { font-weight: 600; color: #202124; text-align: right; }
+        .divider { border-top: 1px dashed #ddd; margin: 15px 0; }
+        .notice { color: #d93025; font-size: 12px; line-height: 1.4; margin-bottom: 15px; }
+
+        .pay-btn-container { padding: 20px 15px 0 15px; }
+        .main-pay-btn { width: 100%; background: #1a73e8; color: white; border: none; padding: 16px; border-radius: 25px; font-size: 16px; font-weight: bold; cursor: pointer; text-align: center; }
+
+        /* দ্বিতীয় পেজ (পেমেন্ট গেটওয়ে) ডিজাইন */
+        #payment-gateway-page { display: none; padding: 0; }
+        .header { background: #1a73e8; color: white; padding: 15px; text-align: center; font-weight: 500; font-size: 18px; }
+        .timer-section { background: #f8f9fa; padding: 10px; text-align: center; font-size: 16px; border-bottom: 1px solid #eee; color: #333; }
+        .timer { color: #d93025; font-weight: bold; }
+        .details-box { padding: 20px; border-bottom: 1px solid #eee; background: #fff; }
+        .pay-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .copy-btn { background: white; color: #1a73e8; border: 1px solid #dadce0; padding: 6px 15px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; text-transform: uppercase; }
+        
+        .apps-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 15px; background: #fff; }
+        .app-btn { border: 1px solid #dadce0; border-radius: 8px; padding: 12px; text-align: center; background: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 70px; font-size: 14px; color: #3c4043; }
+        .app-btn img { height: 28px; margin-bottom: 5px; object-fit: contain; }
+        
+        .utr-section { padding: 20px; background: #fff; }
+        .utr-input { width: 100%; box-sizing: border-box; padding: 14px; border: 1px solid #dadce0; border-radius: 8px; margin-bottom: 15px; font-size: 16px; background: #fff; outline: none; }
+        .submit-btn { width: 100%; background: #1a73e8; color: white; border: none; padding: 14px; border-radius: 25px; font-size: 16px; font-weight: bold; cursor: pointer; }
+
+        /* কপি টোস্ট নোটিফিকেশন */
+        #copy-toast { visibility: hidden; min-width: 150px; background-color: #323232; color: #fff; text-align: center; border-radius: 4px; padding: 12px; position: fixed; z-index: 1000; left: 50%; top: 30px; transform: translateX(-50%); font-size: 14px; box-shadow: 0 3px 6px rgba(0,0,0,0.2); }
+        #copy-toast.show { visibility: visible; animation: fadeInOut 2s; }
+        @keyframes fadeInOut { 0% {top: 0; opacity: 0;} 20% {top: 30px; opacity: 1;} 80% {top: 30px; opacity: 1;} 100% {top: 0; opacity: 0;} }
+    </style>
 </head>
 <body>
+
+<div id="copy-toast">Copied!</div>
+
 <div class="container">
-    <div class="top-header">&lt; Repayment Overview</div>
-    <div class="brand-section">
-        <div class="brand-logo">₹</div>
-        <div class="brand-name" id="display-title">Cash Kingdom</div>
+    <!-- প্রথম পেজ: Repayment Overview -->
+    <div id="overview-page">
+        <div class="top-header">
+            <span style="margin-right: 15px; color: #1a73e8; cursor: pointer;">&lt;</span> Repayment Overview
+        </div>
+
+        <div class="brand-section">
+            <div class="brand-logo">₹</div>
+            <div class="brand-name" id="display-title">Cash Kingdom</div>
+        </div>
+
+        <div class="card-box">
+            <div class="row">
+                <span class="label">Name</span>
+                <span class="value" id="overview-name">Aditya Kumar</span>
+            </div>
+            <div class="row">
+                <span class="label">Loan Amount</span>
+                <span class="value">₹ <span id="overview-amount">4,500</span></span>
+            </div>
+            <div class="row">
+                <span class="label">Amount Paid</span>
+                <span class="value">₹ 0</span>
+            </div>
+            <div class="row">
+                <span class="label">Overdue Charges</span>
+                <span class="value">₹ 0</span>
+            </div>
+            <div class="notice">
+                If any penalty applies, it is already included in your loan amount.
+            </div>
+            <div class="divider"></div>
+            <div class="row" style="font-size: 18px; font-weight: bold; margin-bottom: 0;">
+                <span>Total Repayment</span>
+                <span>₹ <span id="overview-total">4,500</span></span>
+            </div>
+        </div>
+
+        <div class="pay-btn-container">
+            <button class="main-pay-btn" onclick="goToPayment()">Pay Total Due (₹ <span id="btn-amount">4,500</span>)</button>
+        </div>
     </div>
-    <div class="card-box">
-        <div class="row"><span class="label">Name</span><span class="value" id="overview-name">Aditya Kumar</span></div>
-        <div class="row"><span class="label">Loan Amount</span><span class="value">₹ <span id="overview-amount">4,500</span></span></div>
-        <div class="row"><span class="label">Total Repayment</span><span class="value" style="font-size:18px;">₹ <span id="overview-total">4,500</span></span></div>
+
+    <!-- দ্বিতীয় পেজ: পেমেন্ট গেটওয়ে -->
+    <div id="payment-gateway-page">
+        <div class="header">Payment Gateway</div>
+        <div class="timer-section">Order will be closed in: <span id="timer" class="timer">10:00</span></div>
+
+        <div class="details-box">
+            <div class="pay-row">
+                <span class="label">Payee Name</span>
+                <span class="value" id="display-name" style="color: #1a73e8;">Customer Name</span>
+                <button class="copy-btn" onclick="copyText('display-name', 'Name')">COPY</button>
+            </div>
+            <div class="pay-row">
+                <span class="label">Amount</span>
+                <span class="value">₹ <span id="display-amount">0</span></span>
+                <button class="copy-btn" onclick="copyText('display-amount', 'Amount')">COPY</button>
+            </div>
+            <div class="pay-row">
+                <span class="label">VPA/UPI ID</span>
+                <span class="value" id="display-vpa">notset@upi</span>
+                <button class="copy-btn" onclick="copyText('display-vpa', 'UPI ID')">COPY</button>
+            </div>
+        </div>
+
+        <div class="apps-grid">
+            <div class="app-btn"><img src="phonepe.png" alt="PhonePe">PhonePe</div>
+            <div class="app-btn"><img src="gpay.png" alt="GPay">GPay</div>
+        </div>
+
+        <div class="utr-section">
+            <input type="text" class="utr-input" id="utr" placeholder="Input UTR number" maxlength="12">
+            <button class="submit-btn" onclick="submitUTR()">Submit UTR</button>
+        </div>
     </div>
-    <button class="main-pay-btn" onclick="alert('Proceed to pay')">Pay Total Due (₹ <span id="btn-amount">4,500</span>)</button>
 </div>
+
 <script>
     const urlParams = new URLSearchParams(window.location.search);
-    if(urlParams.get('amntInput')) {
-        let amt = urlParams.get('amntInput');
-        document.getElementById('overview-amount').innerText = amt;
-        document.getElementById('overview-total').innerText = amt;
-        document.getElementById('btn-amount').innerText = amt;
+    
+    const amount = urlParams.get('amntInput') || '4,500';
+    const vpa = urlParams.get('vpaInput') || '01943942067';
+    const name = urlParams.get('nameInput') ? decodeURIComponent(urlParams.get('nameInput')) : 'Aditya Kumar';
+    const customTitle = urlParams.get('titleInput') ? decodeURIComponent(urlParams.get('titleInput')) : 'Cash Kingdom';
+
+    // ডাটা সেট করা
+    document.getElementById('display-title').innerText = customTitle;
+    document.getElementById('overview-name').innerText = name;
+    document.getElementById('overview-amount').innerText = amount;
+    document.getElementById('overview-total').innerText = amount;
+    document.getElementById('btn-amount').innerText = amount;
+
+    document.getElementById('display-amount').innerText = amount;
+    document.getElementById('display-vpa').innerText = vpa;
+    document.getElementById('display-name').innerText = name;
+
+    // পেজ পরিবর্তনের ফাংশন
+    function goToPayment() {
+        document.getElementById('overview-page').style.display = 'none';
+        document.getElementById('payment-gateway-page').style.display = 'block';
     }
-    if(urlParams.get('nameInput')) {
-        document.getElementById('overview-name').innerText = decodeURIComponent(urlParams.get('nameInput'));
+
+    // টাইমার
+    let time = 600;
+    setInterval(() => {
+        let mins = Math.floor(time / 60);
+        let secs = time % 60;
+        document.getElementById('timer').innerHTML = `${mins} : ${secs < 10 ? '0' : ''}${secs}`;
+        if(time > 0) time--;
+    }, 1000);
+
+    // কপি ফাংশন (মোবাইল ও সাফারি সাপোর্টেড)
+    function copyText(id, type) {
+        const text = document.getElementById(id).innerText;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast(type);
+            }).catch(() => {
+                fallbackCopy(text, type);
+            });
+        } else {
+            fallbackCopy(text, type);
+        }
     }
-    if(urlParams.get('titleInput')) {
-        document.getElementById('display-title').innerText = decodeURIComponent(urlParams.get('titleInput'));
+
+    function fallbackCopy(text, type) {
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        textArea.style.position = "fixed";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        try {
+            document.execCommand('copy');
+            showToast(type);
+        } catch (err) {
+            alert("Failed to copy");
+        }
+        document.body.removeChild(textArea);
+    }
+
+    function showToast(type) {
+        const toast = document.getElementById("copy-toast");
+        toast.innerText = type + " Copied!";
+        toast.className = "show";
+        setTimeout(() => { toast.className = ""; }, 2000);
+    }
+
+    function submitUTR() {
+        const utr = document.getElementById('utr').value;
+        if(utr.length < 12) {
+            alert("Please enter a valid 12-digit UTR number");
+        } else {
+            alert("UTR Submitted Successfully: " + utr);
+        }
     }
 </script>
+
 </body>
 </html>
