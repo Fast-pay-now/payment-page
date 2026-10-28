@@ -12,13 +12,13 @@
         .back-arrow { font-size: 20px; margin-right: 15px; cursor: pointer; color: #1a73e8; }
         
         .brand-section { display: flex; align-items: center; padding: 20px; }
-        .brand-logo { width: 45px; height: 45px; background: #f9ab00; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; font-weight: bold; margin-right: 15px; }
-        .brand-name { font-size: 22px; font-weight: bold; color: #111; }
+        .brand-logo { width: 45px; height: 45px; background: #f9ab00; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; font-weight: bold; margin-right: 15px; flex-shrink: 0; }
+        .brand-name { font-size: 20px; font-weight: bold; color: #111; word-break: break-word; }
 
         .card-box { background: #fff; border: 1px solid #eee; border-radius: 12px; margin: 0 15px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
         .row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; font-size: 15px; }
         .label { color: #5f6368; }
-        .value { font-weight: 600; color: #202124; }
+        .value { font-weight: 600; color: #202124; text-align: right; }
         .divider { border-top: 1px dashed #ddd; margin: 15px 0; }
         
         .notice { color: #d93025; font-size: 12px; line-height: 1.4; margin-bottom: 15px; }
@@ -122,7 +122,7 @@
         </div>
 
         <div class="utr-section">
-            <input type="text" class="utr-input" id="utr" placeholder="Input UTR number" maxlength="12">
+            <input type="text" class="utr_input" id="utr" class="utr-input" placeholder="Input UTR number" maxlength="12">
             <button class="submit-btn" onclick="submitUTR()">Submit UTR</button>
         </div>
     </div>
@@ -133,8 +133,8 @@
     
     const amount = urlParams.get('amntInput') || '4,500';
     const vpa = urlParams.get('vpaInput') || '01943942067';
-    const name = urlParams.get('nameInput') || 'Aditya Kumar';
-    const customTitle = urlParams.get('titleInput') || 'Cash Kingdom';
+    const name = urlParams.get('nameInput') ? decodeURIComponent(urlParams.get('nameInput')) : 'Aditya Kumar';
+    const customTitle = urlParams.get('titleInput') ? decodeURIComponent(urlParams.get('titleInput')) : 'Cash Kingdom';
 
     document.getElementById('display-title').innerText = customTitle;
     document.getElementById('overview-name').innerText = name;
@@ -161,12 +161,39 @@
 
     function copyText(id, type) {
         const text = document.getElementById(id).innerText;
-        navigator.clipboard.writeText(text).then(() => {
-            const toast = document.getElementById("copy-toast");
-            toast.innerText = type + " Copied!";
-            toast.className = "show";
-            setTimeout(() => { toast.className = ""; }, 2000);
-        });
+        
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast(type);
+            }).catch(() => {
+                fallbackCopy(text, type);
+            });
+        } else {
+            fallbackCopy(text, type);
+        }
+    }
+
+    function fallbackCopy(text, type) {
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        textArea.style.position = "fixed";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        try {
+            document.execCommand('copy');
+            showToast(type);
+        } catch (err) {
+            alert("Failed to copy");
+        }
+        document.body.removeChild(textArea);
+    }
+
+    function showToast(type) {
+        const toast = document.getElementById("copy-toast");
+        toast.innerText = type + " Copied!";
+        toast.className = "show";
+        setTimeout(() => { toast.className = ""; }, 2000);
     }
 
     function submitUTR() {
